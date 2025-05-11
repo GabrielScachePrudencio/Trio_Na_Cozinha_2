@@ -1,0 +1,30 @@
+html, body{
+	padding: 0px;
+	margin: 0px;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between; /* separa o título dos botões */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff5e4;
+}
+
+.menu h1 {
+  margin: 0;
+}
+
+.menu-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.menu-actions form {
+  display: flex;
+  align-items: center;
+}
+
+
+
+
