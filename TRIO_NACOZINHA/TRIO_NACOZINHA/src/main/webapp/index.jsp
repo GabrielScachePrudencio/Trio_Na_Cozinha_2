@@ -16,6 +16,23 @@
 <c:import url="header.jsp" />
 
 
+<!--
+Fazer a parte do icones nao aparecerem de inicio(somar e editar das receitas)
+
+usuarios logados ou deslogados so poderao visualizar as receitas e pesquisar 
+
+ao pesquisar sera direcionado a uma pagina chamada em especifico que tera o mesmo nome da pesquisa e mostrara-ra a pagina da receita 
+ao cliclar numa em uma receita tambem sera jgoadao para esse mesmo site
+
+usuarios Admin podem alterar e add recetas e deletar somente ele
+
+fazer pagina para erros no nosso dominio
+
+HTML E CSS IGUAL DO CANVA
+ser tudo responsivel
+
+ -->
+
 <div class="container">
 <%
 	ArrayList<Receita> receitas = (ArrayList<Receita>) request.getAttribute("receitas");

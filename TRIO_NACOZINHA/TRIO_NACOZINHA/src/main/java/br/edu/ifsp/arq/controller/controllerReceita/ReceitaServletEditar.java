@@ -57,12 +57,14 @@ public class ReceitaServletEditar extends HttpServlet {
 		out.println("<label for='qtddPorcoes'>Quantidade de Porções:</label>");
 		out.println("<input type='number' id='qtddPorcoes' name='qtddPorcoes' value='" + receita.getQtddPorcoes() + "' required><br><br>");
 
+		System.out.print("ingre" + receita.getIngredientes());
+		System.out.print("cat" + receita.getCategorias());
 		// Ingredientes
 		out.println("<label for='ingredientes'>Ingredientes:</label><br>");
 		ArrayList<String> ingredientes = receita.getIngredientes();
-		String[] todosIngredientes = {"Açúcar", "Farinha", "Leite", "Ovo", "Chocolate", "Fermento", "Essencia de baunilha", "Agua", "Guarana", "Coco"};
+		String[] todosIngredientes = {"Açúcar", "Farinha", "Leite", "Ovo", "Chocolate", "Fermento", "Essencia de baunilha", "Agua", "Guarana", "Coco", "avelã", "manteiga", "3 ovos"};
 		for (String ing : todosIngredientes) {
-		    boolean checked = ingredientes.contains(ing);
+		    boolean checked = ingredientes.contains(ing); // Verifica se o ingrediente está na lista
 		    out.println("<input type='checkbox' name='ingredientes' value='" + ing + "'" + (checked ? " checked" : "") + "> " + ing + "<br>");
 		}
 		out.println("<br>");
@@ -70,12 +72,13 @@ public class ReceitaServletEditar extends HttpServlet {
 		// Categorias
 		out.println("<label for='categorias'>Categorias:</label><br>");
 		ArrayList<String> categorias = receita.getCategorias();
-		String[] todasCategorias = {"Bolos", "Biscoitos", "Naturais"};
+		String[] todasCategorias = {"Bolos", "Biscoitos", "Naturais", "Doce"};
 		for (String cat : todasCategorias) {
-		    boolean checked = categorias.contains(cat);
+		    boolean checked = categorias.contains(cat); // Verifica se a categoria está na lista
 		    out.println("<input type='checkbox' name='categorias' value='" + cat + "'" + (checked ? " checked" : "") + "> " + cat + "<br>");
 		}
 		out.println("<br>");
+
 		
 		
 		out.println("<label for=\"img\">Imagem:</label>");
