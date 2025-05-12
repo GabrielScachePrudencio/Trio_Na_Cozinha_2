@@ -39,6 +39,7 @@ public class ReceitaDAO implements GenericDAO<Receita> {
 	public boolean editar(int id, Receita obj) {
 		for(int i = 0; i < receitas.size(); i++ ) {
 			if(receitas.get(i).getId() == id) {
+				obj.setId(id); 
 				receitas.set(i, obj);
 				return true;
 			}
@@ -51,7 +52,12 @@ public class ReceitaDAO implements GenericDAO<Receita> {
 	}
 	
 	public Receita buscarPorID(int id) {
-		return receitas.get(id);
+		for (Receita r : receitas) {
+			if (r.getId() == id) {
+				return r;
+			}
+		}
+		return null;
 	}	
 
 }

@@ -57,19 +57,25 @@ public class ReceitaServletSalvar extends HttpServlet {
 		        categorias.add(categoria);
 		    }
 		}
-
+		
+		
 		Part filePart = request.getPart("img");
 		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-		String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
-		File uploadDir = new File(uploadPath);
-		if(!uploadDir.exists()) uploadDir.mkdir();
-		filePart.write(uploadPath + File.separator + fileName); 
+		if (fileName.isEmpty()) {
+		    fileName = receitaDao.buscarPorID(id2).getImg(); // mantém a imagem anterior
+		}
+		else {
+			String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
+			File uploadDir = new File(uploadPath);
+			if(!uploadDir.exists()) uploadDir.mkdir();
+			filePart.write(uploadPath + File.separator + fileName); 
+		}
 		
 		Receita r = new Receita(0, nome, autor, tempoDePreparoMinutos, ingredientes, modoPreparo, categorias, qtddPorcoes, fileName);
 		
 		receitaDao.editar(id2, r);
 		
-		getServletContext().setAttribute("receitas", receitaDao.mostrarTodos());
+		request.setAttribute("receitas", receitaDao.mostrarTodos());
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 		
 	

@@ -24,11 +24,13 @@ public class ReceitaServletDeletar extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("ID recebido: " + request.getParameter("id"));
+
 		String id = request.getParameter("id");
 		int id2 = Integer.parseInt(id);
 		receitaDao.deletar(id2);
 		
-		getServletContext().setAttribute("receitas", receitaDao.mostrarTodos());
+		request.setAttribute("receitas", receitaDao.mostrarTodos());
 		getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 

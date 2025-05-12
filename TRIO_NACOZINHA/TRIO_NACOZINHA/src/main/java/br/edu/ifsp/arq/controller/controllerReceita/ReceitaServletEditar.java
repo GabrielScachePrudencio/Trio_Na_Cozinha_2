@@ -33,14 +33,14 @@ public class ReceitaServletEditar extends HttpServlet {
 		String id = request.getParameter("id");
 		int id2 = Integer.parseInt(id);
 		
-		Receita receita = receitaDao.buscarPorID(id2-1);
+		Receita receita = receitaDao.buscarPorID(id2);
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		out.println("<form action='ReceitaServletSalvar' method='POST' enctype='multipart/form-data'>  '");
 
 		// Campo oculto com ID
-		out.println("<label for='nome'>ID: " + receita.getId() +" id: "+id+" id2: " + id2 + " </label>  <br>");
+		out.println("<input type='hidden' name='id' value='" + receita.getId() + "'><br>\r\n" + "<br>");
 
 		out.println("<label for='nome'>Nome da Receita:</label>");
 		out.println("<input type='text' id='nome' name='nome' value='" + receita.getNome() + "' required><br><br>");
