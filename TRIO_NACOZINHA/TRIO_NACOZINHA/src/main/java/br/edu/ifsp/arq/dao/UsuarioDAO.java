@@ -22,9 +22,9 @@ public class UsuarioDAO {
 		return instance;
 	}
 
-	public boolean add(Usuario r) {
-		r.setId(idCount++);
-		return usuarios.add(r);
+	public boolean add(Usuario u) {
+		u.setId(idCount++);
+		return usuarios.add(u);
 	}
 	
 	public boolean deletar(int id) {
@@ -40,6 +40,7 @@ public class UsuarioDAO {
 	public boolean editar(int id, Usuario obj) {
 		for(int i = 0; i < usuarios.size(); i++ ) {
 			if(usuarios.get(i).getId() == id) {
+				obj.setId(id); 
 				usuarios.set(i, obj);
 				return true;
 			}
@@ -52,8 +53,12 @@ public class UsuarioDAO {
 	}
 	
 	public Usuario buscarPorID(int id) {
-		return usuarios.get(id);
+		for (Usuario u : usuarios) {
+			if (u.getId() == id) {
+				return u;
+			}
+		}
+		return null;
 	}	
-
 	
 }

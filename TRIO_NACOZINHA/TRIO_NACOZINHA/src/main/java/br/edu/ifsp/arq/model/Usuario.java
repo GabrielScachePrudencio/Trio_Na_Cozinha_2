@@ -5,17 +5,22 @@ public class Usuario {
 	private String nome;
 	private String senha;
 	private String tipoUsu;
+	private String img;
 	
 	
-	
+	public Usuario(int id, String nome, String senha, String tipoUsu, String msg) {
+		setId(id);
+		setNome(nome);
+		setSenha(senha);
+		setTipoUsu(tipoUsu);
+		setImg(img);
+	}
 	public Usuario(int id, String nome, String senha, String tipoUsu) {
 		setId(id);
 		setNome(nome);
 		setSenha(senha);
 		setTipoUsu(tipoUsu);
-		
 	}
-	
 	
 	public int getId() {
 		return id;
@@ -42,6 +47,18 @@ public class Usuario {
 		this.tipoUsu = tipoUsu;
 	}
 	
+	
+	
+	public String getImg() {
+		return img;
+	}
+
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+
 	@Override
 	public String toString() {
 	    return "Usuário {" +

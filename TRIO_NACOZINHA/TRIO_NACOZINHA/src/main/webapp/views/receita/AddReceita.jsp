@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Receita</title>
+    <title>Adicionar Receitas</title>
 </head>
 <body>
     <h1>Adicionar Nova Receita</h1>
