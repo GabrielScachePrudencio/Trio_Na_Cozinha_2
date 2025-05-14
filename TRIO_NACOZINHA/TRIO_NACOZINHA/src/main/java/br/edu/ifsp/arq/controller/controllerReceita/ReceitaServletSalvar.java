@@ -35,6 +35,7 @@ public class ReceitaServletSalvar extends HttpServlet {
 		System.out.println("ID recebido: " + request.getParameter("id"));
 
 		String id = request.getParameter("id");
+		
 		int id2 = Integer.parseInt(id);
 		String nome = request.getParameter("nome");
 		String autor = request.getParameter("autor");

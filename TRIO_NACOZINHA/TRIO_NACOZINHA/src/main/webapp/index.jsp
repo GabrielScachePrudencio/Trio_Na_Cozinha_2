@@ -74,7 +74,7 @@ ser tudo responsivel
 			<img src="imagens/usuario/<%= u.getImg() %>" width="200">
 			<p> <%= u.toString() %> </p>
 			<a href="ReceitaServletDeletar?id=<%= u.getId() %>">Deletar</a>
-			<a href="ReceitaServletEditar?id=<%= u.getId() %>">Editar</a>
+			<a href="UsuarioServletEditar?id=<%= u.getId() %>">Editar</a>
 	<%
     	}
 	}

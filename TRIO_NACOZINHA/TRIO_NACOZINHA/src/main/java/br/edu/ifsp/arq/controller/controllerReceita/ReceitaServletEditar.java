@@ -83,7 +83,7 @@ public class ReceitaServletEditar extends HttpServlet {
 		
 		out.println("<label for=\"img\">Imagem:</label>");
 		out.println("<input type=\"file\" name=\"img\" accept=\"image/*\"><br><br>");
-		out.println("<img src='" + "imagens/"+ receita.getImg() + "' width='200px'><br><br>");
+		out.println("<img src='" + "imagens/receita"+ receita.getImg() + "' width='200px'><br><br>");
 
 		
 
