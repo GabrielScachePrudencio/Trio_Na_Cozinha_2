@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import br.edu.ifsp.arq.dao.ReceitaDAO;
 import br.edu.ifsp.arq.dao.UsuarioDAO;
 import br.edu.ifsp.arq.model.Usuario;
 
@@ -44,6 +45,7 @@ public class UsuarioServletAdd extends HttpServlet {
 		usuario_dao.add(u);
 		
 		request.setAttribute("usuarios", usuario_dao.mostrarTodos());
+		request.setAttribute("receitas", ReceitaDAO.getInstance_R().mostrarTodos());
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 		
 	}

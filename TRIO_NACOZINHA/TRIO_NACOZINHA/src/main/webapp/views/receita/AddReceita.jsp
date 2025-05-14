@@ -8,7 +8,7 @@
 <body>
     <h1>Adicionar Nova Receita</h1>
 
-    <form action="ReceitaServletAdd" method="POST" enctype='multipart/form-data'>  <!-- enctype='multipart/form-data' -->
+    <form action="<%= request.getContextPath() %>/ReceitaServletAdd" method="POST" enctype='multipart/form-data'>  <!-- enctype='multipart/form-data' -->
         <label for="nome">Nome da Receita:</label>
         <input type="text" id="nome" name="nome" required><br><br>
 

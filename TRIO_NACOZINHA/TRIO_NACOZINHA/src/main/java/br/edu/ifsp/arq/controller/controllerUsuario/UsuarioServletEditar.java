@@ -38,7 +38,7 @@ public class UsuarioServletEditar extends HttpServlet {
 					
 			response.setContentType("text/html");
 			PrintWriter out = response.getWriter();
-			out.println("<form action='ReceitaServletSalvar' method='POST' enctype='multipart/form-data'>  '");
+			out.println("<form action='" + request.getContextPath() + "/UsuarioServletSalvar' method='POST' enctype='multipart/form-data'>");
 
 			// Campo oculto com ID
 			out.println("<input type='hidden' name='id' value='" + u.getId() + "'><br>\r\n" + "<br>");

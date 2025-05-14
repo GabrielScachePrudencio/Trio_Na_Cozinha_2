@@ -12,23 +12,25 @@
     </form>
 	
 	<%
-	    HttpSession sessao = request.getSession();
-	    Boolean isADMAttr = (Boolean) sessao.getAttribute("isADM");
-	    boolean isADM = (isADMAttr != null) ? isADMAttr : false;
 	
+    	HttpSession sessao = request.getSession();
+	    Boolean isADMAttr = (Boolean) sessao.getAttribute("isADM");
 	    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
-	    request.setAttribute("usuarioLogadoAttr", usuarioLogado);
-	    request.setAttribute("isADMAttr", isADM);
+
+	    System.out.println("HEADER isADM (session): " + isADMAttr);
+	    System.out.println("HEADER usuarioLogado (session): " + usuarioLogado);
 	%>
 	
+
 	<c:choose>
-      <c:when test="${not empty usuarioLogado}">
+	
+      <c:when test="${not empty sessionScope.usuarioLogado}">
         
-        <c:if test="${isADM}">
+        <c:if test="${sessionScope.isADM}">
           <a href="views/receita/AddReceita.jsp">ADD Receita</a>
         </c:if>
         
-        <p>${usuarioLogado.nome}</p>
+        <p>${sessionScope.usuarioLogado.nome}</p>
         <a href="views/usuario/Conta.jsp">Conta</a>
       </c:when>
 

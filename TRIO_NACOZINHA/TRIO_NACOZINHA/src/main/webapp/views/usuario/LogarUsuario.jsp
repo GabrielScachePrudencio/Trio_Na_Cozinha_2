@@ -8,12 +8,12 @@
 </head>
 <body>
 	<h1>LOGIN</h1>
-	 <form action="<%= request.getContextPath() %>/UsuarioServletLogar" method="POST" enctype='multipart/form-data'>
+	<form action="<%= request.getContextPath() %>/UsuarioServletLogar" method="POST">
 	
         <label for="nome">Nome de usuario:</label>
         <input type="text" id="nome" name="nome" required><br><br>
 
-        <label for="autor">Senha</label>
+        <label for="senha">Senha</label>
         <input type="text" id="senha" name="senha" required><br><br>  
 		
 		

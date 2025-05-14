@@ -17,69 +17,67 @@
 
 
 <!--
-pq imagens nao de usaurio nao funciona
-pq o sistema de login nao funciona
-pq o sistema do menu nao funciona
 
-falta fazer que quando o cliente clicar na sua conta o u nome de usuario ele seja direcionado para outro site contendo suas informaçoes e la 
-vai ter o editar ou deletar
-
-tem q fazer uma pagina q mostra todos os usuarios disponiveis so aceessivel ao adimin
-
-fazer os servlets de Usuarios para fazer o sistema de cadastro
-
-Fazer a parte do icones nao aparecerem de inicio(somar e editar das receitas)
-
-usuarios logados ou deslogados so poderao visualizar as receitas e pesquisar 
+todos editares ou apagar so pode rao ser feito apartir do admin pela sua conta
+Arumar editar e deletar de usuarios na conta do admin
+arrumar editar de receitas na conta do admin
+arrumar que quando voltar para index ele apareça sempre as receitas
 
 ao pesquisar sera direcionado a uma pagina chamada em especifico que tera o mesmo nome da pesquisa e mostrara-ra a pagina da receita 
 ao cliclar numa em uma receita tambem sera jgoadao para esse mesmo site
 
-usuarios Admin podem alterar e add recetas e deletar somente ele
-
 fazer pagina para erros no nosso dominio
+
+Arrunmar a pagina inicial colocar certo o index e pagina inicial
+
 
 HTML E CSS IGUAL DO CANVA
 ser tudo responsivel
 
 
  -->
-
-<div class="container">
 <%
 	ArrayList<Receita> receitas = (ArrayList<Receita>) request.getAttribute("receitas");
-	if (receitas != null) {
-    	for (Receita r : receitas) {
+	ArrayList<Usuario> usuarios = (ArrayList<Usuario>) request.getAttribute("usuarios");
 
-	%>	
-		<br>
-		<img src="imagens/<%= r.getImg() %>" width="200">
-		<p> <%= r.toString() %> </p>
-		<a href="ReceitaServletDeletar?id=<%= r.getId() %>">Deletar</a>
-		<a href="ReceitaServletEditar?id=<%= r.getId() %>">Editar</a>
-	<%
-    	}
-	}
-	%>
+%>
+
+<div class="container">
+	<c:forEach var="receita" items="${receitas}">
+	    <div class="receita-card">
+		        <img alt="Imagem da Receita" src="${pageContext.request.contextPath}/imagens/${receita.img}" width="200">
+		        
+		        <p>ID: ${receita.id}</p>
+		        <p>Nome: ${receita.nome}</p>
+		        <p>Autor: ${receita.autor}</p>
+		        <p>Tempo de Preparo: ${receita.tempoDePreparoMinutos} minutos</p>
+		        <p>Quantidade de Porções: ${receita.qtddPorcoes}</p>
+		        
+		        <p>Ingredientes:</p>
+		        <ul>
+		            <c:forEach var="ingrediente" items="${receita.ingredientes}">
+		                <li>${ingrediente}</li>
+		            </c:forEach>
+		        </ul>
+		        
+		        <p>Modo de Preparo: ${receita.modoPreparo}</p>
+		        
+		        <p>Categorias:</p>
+		        <ul>
+		            <c:forEach var="categoria" items="${receita.categorias}">
+		                <li>${categoria}</li>
+		            </c:forEach>
+		        </ul>
+		        
+		        <a href="<%= request.getContextPath() %>/ReceitaServletEditar?id=${  usuario.id }">Editar</a>
+		        <br>
+		        <a href="<%= request.getContextPath() %>/ReceitaServletDeletar?id=${  usuario.id }">Deletar</a>
+	   			<br><br>
+	    </div>
+	</c:forEach>
 </div>
+
 <br><br>
-<div>
-	<%
-		ArrayList<Usuario> usuarios = (ArrayList<Usuario>) request.getAttribute("usuarios");
-		if (usuarios != null) {
-    		for (Usuario u : usuarios) {
-
-		%>	
-			<br>
-			<img src="imagens/usuario/<%= u.getImg() %>" width="200">
-			<p> <%= u.toString() %> </p>
-			<a href="ReceitaServletDeletar?id=<%= u.getId() %>">Deletar</a>
-			<a href="UsuarioServletEditar?id=<%= u.getId() %>">Editar</a>
-	<%
-    	}
-	}
-	%>
-</div>
 
 	
 <c:import url="footer.jsp" />

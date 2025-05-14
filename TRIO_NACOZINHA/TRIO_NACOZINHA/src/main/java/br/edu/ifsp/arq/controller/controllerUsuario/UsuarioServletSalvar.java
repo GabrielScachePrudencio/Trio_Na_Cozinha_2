@@ -1,5 +1,6 @@
 package br.edu.ifsp.arq.controller.controllerUsuario;
 
+import java.awt.Window.Type;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -36,14 +37,14 @@ public class UsuarioServletSalvar extends HttpServlet {
 		int id2 = Integer.parseInt(id);
 		String nome = request.getParameter("nome");
 		String senha = request.getParameter("senha");
-		String img = request.getParameter("img");
+		
 		
 		
 		
 		Part filePart = request.getPart("img");
 		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 		if (fileName.isEmpty()) {
-		    fileName = usuarioDao.buscarPorID(id2).getImg(); // mantém a imagem anterior
+		    fileName = usuarioDao.buscarPorID(id2).getImg();
 		}
 		else {
 			String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
@@ -58,7 +59,7 @@ public class UsuarioServletSalvar extends HttpServlet {
 		
 		usuarioDao.editar(id2, u);
 		
-		request.setAttribute("receitas", usuarioDao.mostrarTodos());
+		request.setAttribute("usuarios", usuarioDao.mostrarTodos());
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 		
 	}

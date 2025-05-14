@@ -6,8 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.edu.ifsp.arq.dao.UsuarioDAO;
+import br.edu.ifsp.arq.model.Usuario;
 
 
 @WebServlet("/UsuarioServletDeletar")
@@ -23,12 +25,24 @@ public class UsuarioServletDeletar extends HttpServlet {
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("ID recebido: " + request.getParameter("id"));
-
+		HttpSession sessao = request.getSession(false);
+		
+		
 		String id = request.getParameter("id");
 		int id2 = Integer.parseInt(id);
-		usuarioDao.deletar(id2);
+		Usuario u = usuarioDao.buscarPorID(id2);
 		
-		request.setAttribute("receitas", usuarioDao.mostrarTodos());
+		if(u.getTipoUsu().equals("admin")) {
+			//fazer com retorne nao pode apgar adm
+			System.out.print("nao pode apagar admin");
+		} else {
+			sessao.setAttribute("isADM", false);
+	        sessao.setAttribute("usuarioLogado", null);
+			usuarioDao.deletar(id2);
+		}
+		
+		
+		request.setAttribute("usuarios", usuarioDao.mostrarTodos());
 		getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 }
