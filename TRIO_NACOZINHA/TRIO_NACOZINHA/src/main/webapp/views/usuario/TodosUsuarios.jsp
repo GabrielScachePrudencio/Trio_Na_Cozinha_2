@@ -26,7 +26,7 @@
    			<br><br>
     </c:forEach>
     
-    <a href="<%= request.getContextPath() %>/index.jsp">Voltar</a>
+    <a href="<%= request.getContextPath() %>/views/usuario/Conta.jsp">Voltar a conta</a>
 </div>
 </body>	
 </html>

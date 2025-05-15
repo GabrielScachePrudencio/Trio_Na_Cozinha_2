@@ -47,14 +47,16 @@ public class ServletInicial extends HttpServlet {
 			ArrayList<String> categ = new ArrayList<String>();
 			categ.add("Doce");
 			
-			Receita r = new Receita(0,nome, autor, tempo, ingre, modoPre, categ, qtdd, img);
-			receita_dao.add(r);
-			
+			Receita r1 = new Receita(0,nome, autor, tempo, ingre, modoPre, categ, qtdd, img);
+			receita_dao.add(r1);
 			
 			String nomeU = "123", senha = "123", tipoU = "admin", imgU = "usuario/ancelloti.png";
-			Usuario u = new Usuario(0, nomeU, senha, tipoU, imgU);
+			ArrayList<Receita> minhasRece = new ArrayList<Receita>();
+			minhasRece.add(r1);
+			
+			Usuario u = new Usuario(0, nomeU, senha, tipoU, imgU, minhasRece);
 			usuario_dao.add(u);
-					
+	
 			
 			soUmaVez++;
 		}

@@ -3,14 +3,16 @@ package br.edu.ifsp.arq.controller.controllerReceita;
 import java.io.IOException;
 
 
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import br.edu.ifsp.arq.dao.ReceitaDAO;
-import br.edu.ifsp.arq.model.Receita;
+import br.edu.ifsp.arq.dao.*;
+import br.edu.ifsp.arq.model.*;
 
 
 @WebServlet("/ReceitaServletDeletar")
@@ -25,13 +27,19 @@ public class ReceitaServletDeletar extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("ID recebido: " + request.getParameter("id"));
-
+		HttpSession sessao = request.getSession();
+		Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
 		String id = request.getParameter("id");
 		int id2 = Integer.parseInt(id);
 		receitaDao.deletar(id2);
+		usuarioLogado.getMinhasReceitas().remove(id2);
 		
 		request.setAttribute("receitas", receitaDao.mostrarTodos());
-		getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+		sessao.setAttribute("usuarioLogado", usuarioLogado);
+		//caminho relativo a raiz da aplicação
+		getServletContext().getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+		// caminho relativo ao caminho atual request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+
 	}
 
 	

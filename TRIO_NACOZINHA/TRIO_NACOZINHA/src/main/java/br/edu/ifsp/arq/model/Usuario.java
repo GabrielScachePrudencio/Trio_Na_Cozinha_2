@@ -1,19 +1,22 @@
 package br.edu.ifsp.arq.model;
 
+import java.util.ArrayList;
+
 public class Usuario {
 	private int id;
 	private String nome;
 	private String senha;
 	private String tipoUsu;
 	private String img;
+	private ArrayList<Receita> minhasReceitas;
 	
-	
-	public Usuario(int id, String nome, String senha, String tipoUsu, String img) {
+	public Usuario(int id, String nome, String senha, String tipoUsu, String img, ArrayList<Receita> minhasReceitas) {
 		setId(id);
 		setNome(nome);
 		setSenha(senha);
 		setTipoUsu(tipoUsu);
 		setImg(img);
+		setMinhasReceitas(minhasReceitas);
 	}
 	
 	
@@ -51,6 +54,17 @@ public class Usuario {
 
 	public void setImg(String img) {
 		this.img = img;
+	}
+	
+	
+
+	public ArrayList<Receita> getMinhasReceitas() {
+		return minhasReceitas;
+	}
+
+
+	public void setMinhasReceitas(ArrayList<Receita> minhasReceitas) {
+		this.minhasReceitas = minhasReceitas;
 	}
 
 

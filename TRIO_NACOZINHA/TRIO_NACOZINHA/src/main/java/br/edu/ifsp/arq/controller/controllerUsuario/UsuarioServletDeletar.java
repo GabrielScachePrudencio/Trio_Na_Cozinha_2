@@ -43,6 +43,6 @@ public class UsuarioServletDeletar extends HttpServlet {
 		
 		
 		request.setAttribute("usuarios", usuarioDao.mostrarTodos());
-		getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+		request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
 	}
 }

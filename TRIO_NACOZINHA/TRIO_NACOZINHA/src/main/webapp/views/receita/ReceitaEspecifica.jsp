@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<!-- pegar os dados e jogar aqui da receita que for pesquisada e a que for clicada no index ou pela conta -->
 </body>
 </html>

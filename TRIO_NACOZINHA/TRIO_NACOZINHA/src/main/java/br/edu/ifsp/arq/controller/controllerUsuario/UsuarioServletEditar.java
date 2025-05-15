@@ -30,18 +30,23 @@ public class UsuarioServletEditar extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+			System.out.println("ID recebido Editar: " + request.getParameter("id"));
+
 			String id = request.getParameter("id");
 			int id2 = Integer.parseInt(id);
 			
 			Usuario u = usuarioDao.buscarPorID(id2); 
-					
+			System.out.println("ID recebido Editar: " + request.getParameter("id"));
+			System.out.println("ID2 recebido Editar: " + id2);
+			System.out.println("u.getid recebido Editar: " + u.getId());
+		
 			response.setContentType("text/html");
 			PrintWriter out = response.getWriter();
-			out.println("<form action='" + request.getContextPath() + "/UsuarioServletSalvar' method='POST' enctype='multipart/form-data'>");
+			out.println("<form action=\"" + request.getContextPath() + "/UsuarioServletSalvar?id=" + u.getId() + "\" method=\"POST\" enctype='multipart/form-data'>");
 
 			// Campo oculto com ID
-			out.println("<input type='hidden' name='id' value='" + u.getId() + "'><br>\r\n" + "<br>");
+			out.println("<label for='id'> "+ u.getId()  +" </label>");
+			out.println("<input type='hidden' id='id' name='id' value='" + u.getId() + "'><br>\r\n" + "<br>");
 
 			out.println("<label for='nome'>Nome da Receita:</label>");
 			out.println("<input type='text' id='nome' name='nome' value='" + u.getNome() + "' required><br><br>");
@@ -53,10 +58,11 @@ public class UsuarioServletEditar extends HttpServlet {
 
 			out.println("<label for=\"img\">Imagem:</label>");
 			out.println("<input type=\"file\" name=\"img\" accept=\"image/*\"><br><br>");
-			out.println("<img src='" + "imagens/usuario"+ u.getImg() + "' width='200px'><br><br>");
+			out.println("<img src=\"" + request.getContextPath() + "/imagens/" + u.getImg() + "\" width='200px'><br><br>");
 			
 			out.println("<button type='submit'>Salvar Alterações</button>");
 			out.println("</form>");
-			
+			out.println("<a href=\"" + request.getContextPath() + "/ServletRenovaPrincipal\">Voltar à página principal</a>");
+
 		}	
 }

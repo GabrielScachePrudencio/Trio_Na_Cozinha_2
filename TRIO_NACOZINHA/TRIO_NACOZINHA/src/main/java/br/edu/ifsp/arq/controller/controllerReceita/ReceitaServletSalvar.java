@@ -11,10 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import br.edu.ifsp.arq.dao.ReceitaDAO;
 import br.edu.ifsp.arq.model.Receita;
+import br.edu.ifsp.arq.model.Usuario;
 
 
 
@@ -32,8 +34,10 @@ public class ReceitaServletSalvar extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+		Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
 		System.out.println("ID recebido: " + request.getParameter("id"));
-
+		
 		String id = request.getParameter("id");
 		
 		int id2 = Integer.parseInt(id);
@@ -75,9 +79,11 @@ public class ReceitaServletSalvar extends HttpServlet {
 		Receita r = new Receita(0, nome, autor, tempoDePreparoMinutos, ingredientes, modoPreparo, categorias, qtddPorcoes, fileName);
 		
 		receitaDao.editar(id2, r);
+		usuarioLogado.getMinhasReceitas().set(id2, r);
 		
 		request.setAttribute("receitas", receitaDao.mostrarTodos());
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+		request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+
 		
 	
 	}

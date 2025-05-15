@@ -1,8 +1,10 @@
 package br.edu.ifsp.arq.controller.controllerUsuario;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,6 +16,7 @@ import javax.servlet.http.Part;
 
 import br.edu.ifsp.arq.dao.ReceitaDAO;
 import br.edu.ifsp.arq.dao.UsuarioDAO;
+import br.edu.ifsp.arq.model.Receita;
 import br.edu.ifsp.arq.model.Usuario;
 
 /**
@@ -39,9 +42,13 @@ public class UsuarioServletAdd extends HttpServlet {
 		String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
 		File uploadDir = new File(uploadPath);
 		if(!uploadDir.exists()) uploadDir.mkdir();
-		filePart.write(uploadPath + File.separator + fileName); 
 		
-		Usuario u = new Usuario(0, nome, senha, "cliente", fileName);
+		filePart.write(uploadPath + File.separator + fileName); 
+		ArrayList<Receita> minhasReceitas =  new ArrayList<Receita>();
+		
+		
+		
+		Usuario u = new Usuario(0, nome, senha, "cliente", fileName, minhasReceitas);
 		usuario_dao.add(u);
 		
 		request.setAttribute("usuarios", usuario_dao.mostrarTodos());

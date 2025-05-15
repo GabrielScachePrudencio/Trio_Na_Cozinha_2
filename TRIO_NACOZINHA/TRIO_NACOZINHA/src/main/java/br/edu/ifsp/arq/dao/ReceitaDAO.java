@@ -6,7 +6,7 @@ import br.edu.ifsp.arq.model.Receita;
 public class ReceitaDAO implements GenericDAO<Receita> {
 	private static ReceitaDAO instance;
 	private static ArrayList<Receita> receitas;
-	private static int idCount = 1;
+	private static int idCount = 0;
 	
 	private ReceitaDAO() {
 		this.receitas = new ArrayList<Receita>();

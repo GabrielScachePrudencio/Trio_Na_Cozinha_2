@@ -18,7 +18,8 @@ public class UsuarioServletDeconectar extends HttpServlet {
 		HttpSession sessao = request.getSession(false);
 		sessao.setAttribute("isADM", false);
         sessao.setAttribute("usuarioLogado", null);
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+
 	}	
 
 	

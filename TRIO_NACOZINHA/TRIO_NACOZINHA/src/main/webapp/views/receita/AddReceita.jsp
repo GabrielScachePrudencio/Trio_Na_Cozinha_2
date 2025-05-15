@@ -1,3 +1,5 @@
+<%@page import="br.edu.ifsp.arq.model.*"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -6,14 +8,18 @@
     <title>Adicionar Receitas</title>
 </head>
 <body>
-    <h1>Adicionar Nova Receita</h1>
+	<%
+		HttpSession sessao = request.getSession();
+	    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+
+	%>
+    <h1>Adicionar Nova Receita ${usuarioLogado.nome}</h1>
 
     <form action="<%= request.getContextPath() %>/ReceitaServletAdd" method="POST" enctype='multipart/form-data'>  <!-- enctype='multipart/form-data' -->
         <label for="nome">Nome da Receita:</label>
         <input type="text" id="nome" name="nome" required><br><br>
 
-        <label for="autor">Autor:</label>
-        <input type="text" id="autor" name="autor" required><br><br>
+        <label for="autor">Autor:  ${usuarioLogado.nome}</label> <br><br>
 
         <label for="modoPreparo">Modo de Preparo:</label><br>
         <textarea id="modoPreparo" name="modoPreparo" rows="4" cols="50" required></textarea><br><br>

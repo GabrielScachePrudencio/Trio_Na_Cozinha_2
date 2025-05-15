@@ -10,6 +10,7 @@
 
   <link rel="stylesheet" href="css/style.css">
   
+
 </head>
 <body>
 
@@ -17,11 +18,7 @@
 
 
 <!--
-
-todos editares ou apagar so pode rao ser feito apartir do admin pela sua conta
-Arumar editar e deletar de usuarios na conta do admin
-arrumar editar de receitas na conta do admin
-arrumar que quando voltar para index ele apareça sempre as receitas
+fazer sistema q impeça cadastros duplicados 
 
 ao pesquisar sera direcionado a uma pagina chamada em especifico que tera o mesmo nome da pesquisa e mostrara-ra a pagina da receita 
 ao cliclar numa em uma receita tambem sera jgoadao para esse mesmo site
@@ -39,10 +36,49 @@ ser tudo responsivel
 <%
 	ArrayList<Receita> receitas = (ArrayList<Receita>) request.getAttribute("receitas");
 	ArrayList<Usuario> usuarios = (ArrayList<Usuario>) request.getAttribute("usuarios");
+	HttpSession sessao = request.getSession();
+    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
 
 %>
-
 <div class="container">
+	<c:if test="${not empty usuarioLogado}">
+	<h1>Suas receitas</h1>
+		<c:forEach var="receita" items="${usuarioLogado.minhasReceitas}">
+		    <div class="receita-card">
+		    		
+			        <img alt="Imagem da Receita" src="${pageContext.request.contextPath}/imagens/${receita.img}" width="200">
+			        
+			        <p>ID: ${receita.id}</p>
+			        <p>Nome: ${receita.nome}</p>
+			        <p>Autor: ${receita.autor}</p>
+			        <p>Tempo de Preparo: ${receita.tempoDePreparoMinutos} minutos</p>
+			        <p>Quantidade de Porções: ${receita.qtddPorcoes}</p>
+			        
+			        <p>Ingredientes:</p>
+			        <ul>
+			            <c:forEach var="ingrediente" items="${receita.ingredientes}">
+			                <li>${ingrediente}</li>
+			            </c:forEach>
+			        </ul>
+			        
+			        <p>Modo de Preparo: ${receita.modoPreparo}</p>
+			        
+			        <p>Categorias:</p>
+			        <ul>
+			            <c:forEach var="categoria" items="${receita.categorias}">
+			                <li>${categoria}</li>
+			            </c:forEach>
+			        </ul>
+			        
+		   			<br><br>
+			    </div>
+		</c:forEach>
+	</c:if>
+</div>
+
+<br><br>
+<div class="container">
+	<h1>Todas as receitas</h1>
 	<c:forEach var="receita" items="${receitas}">
 	    <div class="receita-card">
 		        <img alt="Imagem da Receita" src="${pageContext.request.contextPath}/imagens/${receita.img}" width="200">
@@ -69,9 +105,6 @@ ser tudo responsivel
 		            </c:forEach>
 		        </ul>
 		        
-		        <a href="<%= request.getContextPath() %>/ReceitaServletEditar?id=${  usuario.id }">Editar</a>
-		        <br>
-		        <a href="<%= request.getContextPath() %>/ReceitaServletDeletar?id=${  usuario.id }">Deletar</a>
 	   			<br><br>
 	    </div>
 	</c:forEach>
@@ -81,17 +114,7 @@ ser tudo responsivel
 
 	
 <c:import url="footer.jsp" />
-
-<script 
-  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" 
-  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" 
-  crossorigin="anonymous">
-</script>
-<script 
-  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" 
-  integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" 
-  crossorigin="anonymous">
-</script>
+<script src="javaScript/menu.js"></script>
 
 </body>
 </html>

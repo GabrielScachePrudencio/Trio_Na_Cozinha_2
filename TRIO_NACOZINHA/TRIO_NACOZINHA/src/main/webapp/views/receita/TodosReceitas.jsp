@@ -21,7 +21,7 @@
 
 	
 	<c:forEach var="receita" items="${receitas}">
-    <div class="receita-card">
+   		<div class="receita-card">
 	        <img alt="Imagem da Receita" src="${pageContext.request.contextPath}/imagens/${receita.img}" width="200">
 	        
 	        <p>ID: ${receita.id}</p>
@@ -53,7 +53,7 @@
 	    </div>
 	</c:forEach>
 
-	<a href="<%= request.getContextPath() %>/index.jsp">Voltar</a>
+    <a href="<%= request.getContextPath() %>/views/usuario/Conta.jsp">Voltar a conta</a>
 </div>
 </body>
 </html>

@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import br.edu.ifsp.arq.model.*;
@@ -29,6 +30,10 @@ public class ReceitaServletAdd extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sessao = request.getSession();
+	    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+	    
+		
 		String nome = request.getParameter("nome");
 		String autor = request.getParameter("autor");
 		String modoPreparo = request.getParameter("modoPreparo");
@@ -58,12 +63,16 @@ public class ReceitaServletAdd extends HttpServlet {
 		if(!uploadDir.exists()) uploadDir.mkdir();
 		filePart.write(uploadPath + File.separator + fileName); 
 		
-		Receita r = new Receita(0, nome, autor, tempoDePreparoMinutos, ingredientes, modoPreparo, categorias, qtddPorcoes, fileName);
+		
+		Receita r = new Receita(0, nome, usuarioLogado.getNome(), tempoDePreparoMinutos, ingredientes, modoPreparo, categorias, qtddPorcoes, fileName);
 
 		receita_dao.add(r);
-
+		usuarioLogado.getMinhasReceitas().add(r);
+		
+		sessao.setAttribute("usuarioLogado", usuarioLogado);
 		request.setAttribute("receitas", receita_dao.mostrarTodos());
-		getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+		
+		getServletContext().getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
 	}
 
 }
