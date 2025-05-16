@@ -20,9 +20,6 @@ import br.edu.ifsp.arq.dao.UsuarioDAO;
 import br.edu.ifsp.arq.model.Receita;
 import br.edu.ifsp.arq.model.Usuario;
 
-/**
- * Servlet implementation class UsuarioServletSalvar
- */
 @WebServlet("/UsuarioServletSalvar")
 @MultipartConfig
 public class UsuarioServletSalvar extends HttpServlet {
@@ -35,44 +32,49 @@ public class UsuarioServletSalvar extends HttpServlet {
     }
 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession sessao = request.getSession();
-		Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
-		
-		String id = request.getParameter("id");
-		int id2 = Integer.parseInt(id);
-		String nome = request.getParameter("nome");
-		String senha = request.getParameter("senha");
-		
-		ArrayList<Receita> minhasRece = usuarioDao.buscarPorID(id2).getMinhasReceitas();
-		
-		System.out.println("ID recebido Editar: " + request.getParameter("id"));
-		System.out.println("ID2 recebido Editar: " + id2);
-		
-		
-		
-		Part filePart = request.getPart("img");
-		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-		if (fileName.isEmpty()) {
-		    fileName = usuarioDao.buscarPorID(id2).getImg();
-		}
-		else {
-			String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
-			File uploadDir = new File(uploadPath);
-			if(!uploadDir.exists()) uploadDir.mkdir();
-			filePart.write(uploadPath + File.separator + fileName); 
-		}
-		
-		
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession sessao = request.getSession();
+        Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+        
+        String id = request.getParameter("id");
+        int id2 = Integer.parseInt(id);
+        String nome = request.getParameter("nome");
+        String senha = request.getParameter("senha");
+        
+        ArrayList<Receita> minhasRece = usuarioDao.buscarPorID(id2).getMinhasReceitas();
+        
+        boolean nomeJaExiste = false;
+        for (Usuario u : usuarioDao.mostrarTodos()) {
+            if (u.getNome().equalsIgnoreCase(nome) && u.getId() != id2) {
+                nomeJaExiste = true;
+                break;
+            }
+        }
+        
+        if (nomeJaExiste) {
+            request.setAttribute("msgErro", "Já existe um usuário com esse nome. Escolha outro nome.");
+            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+            return; 
+        }
+        
+        Part filePart = request.getPart("img");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        if (fileName.isEmpty()) {
+            fileName = usuarioDao.buscarPorID(id2).getImg();
+        } else {
+            String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            filePart.write(uploadPath + File.separator + fileName);
+        }
+        
+        Usuario u = new Usuario(id2, nome, senha, "cliente", fileName, minhasRece);
+        
+        usuarioDao.editar(id2, u);
+        sessao.setAttribute("usuarioLogado", u);
+        
+        request.setAttribute("usuarios", usuarioDao.mostrarTodos());
+        request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+    }
 
-		Usuario u = new Usuario(0 , nome, senha, "cliente", fileName, minhasRece);
-		
-		usuarioDao.editar(id2, u);
-		sessao.setAttribute("usuarioLogado", u);
-		
-		request.setAttribute("usuarios", usuarioDao.mostrarTodos());
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
-		request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
-		
-	}
 }

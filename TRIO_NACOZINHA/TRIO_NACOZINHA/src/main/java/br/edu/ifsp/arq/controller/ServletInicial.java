@@ -59,6 +59,9 @@ public class ServletInicial extends HttpServlet {
 	
 			
 			soUmaVez++;
+		} else {
+			request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+			return;
 		}
 			
 		HttpSession sessao = request.getSession();

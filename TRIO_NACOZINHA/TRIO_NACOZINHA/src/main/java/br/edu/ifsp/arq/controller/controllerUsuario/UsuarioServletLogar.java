@@ -23,44 +23,48 @@ import br.edu.ifsp.arq.model.Usuario;
 @WebServlet("/UsuarioServletLogar")
 public class UsuarioServletLogar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UsuarioDAO usuario_dao;   
-    
+	private UsuarioDAO usuario_dao;
+
 	public UsuarioServletLogar() {
 		super();
-        usuario_dao = UsuarioDAO.getInstance_U();
-    }
+		usuario_dao = UsuarioDAO.getInstance_U();
+	}
 
-	
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String nome = request.getParameter("nome");
 		String senha = request.getParameter("senha");
 		HttpSession sessao = request.getSession();
-		
-		System.out.println("NOME = " + request.getParameter("nome"));
-		System.out.println("SENHA = " + request.getParameter("senha"));
+		Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
 
-		
-		if (nome != null && senha != null) {
-			for (Usuario u : usuario_dao.mostrarTodos()) {
-	            if (u.getNome().equals(nome) && u.getSenha().equals(senha)) {
-	                boolean isAdmin = "admin".equals(u.getTipoUsu());
-	                sessao.setAttribute("isADM", isAdmin);
-	                sessao.setAttribute("usuarioLogado", u);
-	                System.out.println(u.getNome() + " " + u.getSenha());
-	                break;
-	            }
+		System.out.println("NOME = " + nome);
+		System.out.println("SENHA = " + senha);
 
+		if (usuarioLogado == null) {
+			if (nome != null && senha != null) {
+				for (Usuario u : usuario_dao.mostrarTodos()) {
+					if (u.getNome().equals(nome) && u.getSenha().equals(senha)) {
+						boolean isAdmin = "admin".equals(u.getTipoUsu());
+						sessao.setAttribute("isADM", isAdmin);
+						sessao.setAttribute("usuarioLogado", u);
+
+						request.setAttribute("usuarios", usuario_dao.mostrarTodos());
+						request.setAttribute("receitas", ReceitaDAO.getInstance_R().mostrarTodos());
+
+						request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+						return;
+					}
+				}
 			}
+			
+			request.setAttribute("msgErro", "Usuário ou senha inválidos");
+			request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+			
+		} else {
+			request.setAttribute("msgErro", "Você já está logado");
+			request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
 		}
-		
-		
-		request.setAttribute("usuarios", usuario_dao.mostrarTodos());
-		request.setAttribute("receitas", ReceitaDAO.getInstance_R().mostrarTodos());
-
-		request.getRequestDispatcher("index.jsp").forward(request, response);
-
 	}
-
-
 }
+
+

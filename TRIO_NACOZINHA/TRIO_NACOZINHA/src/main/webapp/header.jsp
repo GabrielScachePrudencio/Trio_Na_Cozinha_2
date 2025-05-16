@@ -38,7 +38,7 @@
       </c:when>
 
       <c:otherwise>
-      
+      	<a href="views/extras/SobreNos.jsp"> Sobre nos </a>
       	<a href="views/receita/AddReceita.jsp" onclick="verificarLogin(${sessionScope.usuarioLogado})">ADD Receita</a>
       	<p id="mensagem" style="color:red;"></p>
         <a href="views/usuario/AddUsuario.jsp">Cadastra-se</a>

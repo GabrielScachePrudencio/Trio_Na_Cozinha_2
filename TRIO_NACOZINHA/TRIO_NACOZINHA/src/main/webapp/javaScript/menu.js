@@ -10,3 +10,8 @@ function verificarLogin(logado) {
 	    }
 	  }
 }
+
+function irParaReceitaMaisDetalhada(id){
+	window.location.href = "ReceitaServletDetalhada?id=" + id;
+	
+}

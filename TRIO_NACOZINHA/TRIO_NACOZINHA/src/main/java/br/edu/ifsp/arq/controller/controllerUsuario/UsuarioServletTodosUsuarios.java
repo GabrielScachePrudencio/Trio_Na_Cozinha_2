@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.edu.ifsp.arq.dao.UsuarioDAO;
 
@@ -21,8 +22,17 @@ public class UsuarioServletTodosUsuarios extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("usuarios", usuarioDao.mostrarTodos());
-		request.getRequestDispatcher("/views/usuario/TodosUsuarios.jsp").forward(request, response);
+		
+		
+		HttpSession sessao = request.getSession(false);
+		boolean isADM = (boolean) sessao.getAttribute("isADM");
+		
+		if(isADM) {
+			request.setAttribute("usuarios", usuarioDao.mostrarTodos());
+			request.getRequestDispatcher("/views/usuario/TodosUsuarios.jsp").forward(request, response);
+		} 
+		
+		request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
 	}
 
 	

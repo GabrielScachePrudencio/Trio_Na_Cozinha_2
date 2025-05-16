@@ -18,19 +18,18 @@
 
 
 <!--
-fazer sistema q impeça cadastros duplicados 
+COLOCAR MSG DE ERRO EM TODOS OS SERVLETS PARA Q JOGUEM NA PAGINA DE ERROS
 
-ao pesquisar sera direcionado a uma pagina chamada em especifico que tera o mesmo nome da pesquisa e mostrara-ra a pagina da receita 
-ao cliclar numa em uma receita tambem sera jgoadao para esse mesmo site
+FAZER FUNCIONAR O TODOS OS USUARIOS E RECEITAS
 
-fazer pagina para erros no nosso dominio
+FAZER O SISTEMA DE BUSCA
 
 Arrunmar a pagina inicial colocar certo o index e pagina inicial
-
 
 HTML E CSS IGUAL DO CANVA
 ser tudo responsivel
 
+e o video
 
  -->
 <%
@@ -44,7 +43,7 @@ ser tudo responsivel
 	<c:if test="${not empty usuarioLogado}">
 	<h1>Suas receitas</h1>
 		<c:forEach var="receita" items="${usuarioLogado.minhasReceitas}">
-		    <div class="receita-card">
+		    	<div onclick="irParaReceitaMaisDetalhada(${receita.id})">
 		    		
 			        <img alt="Imagem da Receita" src="${pageContext.request.contextPath}/imagens/${receita.img}" width="200">
 			        
@@ -80,7 +79,7 @@ ser tudo responsivel
 <div class="container">
 	<h1>Todas as receitas</h1>
 	<c:forEach var="receita" items="${receitas}">
-	    <div class="receita-card">
+		  <div onclick="irParaReceitaMaisDetalhada(${receita.id})">
 		        <img alt="Imagem da Receita" src="${pageContext.request.contextPath}/imagens/${receita.img}" width="200">
 		        
 		        <p>ID: ${receita.id}</p>

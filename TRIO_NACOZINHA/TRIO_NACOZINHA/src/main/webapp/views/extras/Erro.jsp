@@ -7,6 +7,11 @@
 <title>Erro</title>
 </head>
 <body>
-
+	<h1>Voce nao deveria estar aqui</h1>
+	<br>
+	<p><%= request.getAttribute("msgErro") %></p>
+	<br>
+	
+	<a href="<%= request.getContextPath() %>/ServletRenovaPrincipal">Voltar a pagina principal</a>
 </body>
 </html>
