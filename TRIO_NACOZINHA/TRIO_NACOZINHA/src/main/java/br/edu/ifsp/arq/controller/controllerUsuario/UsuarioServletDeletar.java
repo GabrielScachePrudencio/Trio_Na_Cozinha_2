@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.edu.ifsp.arq.dao.ReceitaDAO;
 import br.edu.ifsp.arq.dao.UsuarioDAO;
 import br.edu.ifsp.arq.model.Usuario;
 
@@ -16,10 +17,12 @@ import br.edu.ifsp.arq.model.Usuario;
 public class UsuarioServletDeletar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        UsuarioDAO usuarioDao;
+       ReceitaDAO receitaDAO;
    
     public UsuarioServletDeletar() {
         super();
         usuarioDao = UsuarioDAO.getInstance_U();
+        receitaDAO = ReceitaDAO.getInstance_R();
     }
 
 	
@@ -35,13 +38,16 @@ public class UsuarioServletDeletar extends HttpServlet {
 		    Usuario u = usuarioDao.buscarPorID(id2);
 
 		    if (u.getTipoUsu().equals("admin")) {
-		        request.setAttribute("mensagemErro", "Você não pode deletar um administrador!");
+		        request.setAttribute("msgErro", "Você não pode deletar um administrador!");
+			    request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+
 		    } else {
 		        if (usuarioLogado.getId() == id2) {
 		            sessao.setAttribute("isADM", false);
 		            sessao.setAttribute("usuarioLogado", null);
 		        }
 		        usuarioDao.deletar(id2);
+		        receitaDAO.deletar(id2);
 		    }
 
 		    request.setAttribute("usuarios", usuarioDao.mostrarTodos());

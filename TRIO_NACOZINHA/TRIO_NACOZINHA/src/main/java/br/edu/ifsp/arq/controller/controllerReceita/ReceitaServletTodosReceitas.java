@@ -31,7 +31,7 @@ public class ReceitaServletTodosReceitas extends HttpServlet {
 			request.setAttribute("receitas", receitaDao.mostrarTodos());
 			request.getRequestDispatcher("/views/receita/TodosReceitas.jsp").forward(request, response);
 		} 
-		request.setAttribute("msgErro", "vc nao pode estar aqui");
+		request.setAttribute("msgErro", "somente adms pode ver todas as receitas");
 		request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
 		
 	}

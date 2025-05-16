@@ -37,7 +37,7 @@ public class ServletInicial extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(soUmaVez < 1) {
-			String nome = "Bolo de Chocolate", autor = "Scache", modoPre = "mecha ovos e leite e misture com o fermento", img = "receita/boloChocolate.jpg";
+			String nome = "Bolo de Chocolate", modoPre = "mecha ovos e leite e misture com o fermento", img = "receita/boloChocolate.jpg";
 			int tempo = 100, qtdd = 1;
 			ArrayList<String> ingre = new ArrayList<String>();
 			ingre.add("avelã");
@@ -47,16 +47,19 @@ public class ServletInicial extends HttpServlet {
 			ArrayList<String> categ = new ArrayList<String>();
 			categ.add("Doce");
 			
-			Receita r1 = new Receita(0,nome, autor, tempo, ingre, modoPre, categ, qtdd, img);
-			receita_dao.add(r1);
+			
 			
 			String nomeU = "123", senha = "123", tipoU = "admin", imgU = "usuario/ancelloti.png";
+			String autor = nomeU;
+			
+	
+	
+			Receita r1 = new Receita(0,nome, autor, tempo, ingre, modoPre, categ, qtdd, img);
 			ArrayList<Receita> minhasRece = new ArrayList<Receita>();
 			minhasRece.add(r1);
-			
 			Usuario u = new Usuario(0, nomeU, senha, tipoU, imgU, minhasRece);
+			receita_dao.add(r1);
 			usuario_dao.add(u);
-	
 			
 			soUmaVez++;
 		} else {

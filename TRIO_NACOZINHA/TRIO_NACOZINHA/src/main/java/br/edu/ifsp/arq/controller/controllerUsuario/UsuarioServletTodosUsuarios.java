@@ -31,7 +31,7 @@ public class UsuarioServletTodosUsuarios extends HttpServlet {
 			request.setAttribute("usuarios", usuarioDao.mostrarTodos());
 			request.getRequestDispatcher("/views/usuario/TodosUsuarios.jsp").forward(request, response);
 		} 
-		
+		request.setAttribute("msgErro", "precisa ser o adm para poder ver todos os usuarios");
 		request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
 	}
 

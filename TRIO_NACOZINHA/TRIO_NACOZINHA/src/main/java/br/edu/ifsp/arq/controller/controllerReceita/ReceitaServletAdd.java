@@ -33,46 +33,67 @@ public class ReceitaServletAdd extends HttpServlet {
 		HttpSession sessao = request.getSession();
 	    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
 	    
-		
-		String nome = request.getParameter("nome");
-		String autor = request.getParameter("autor");
-		String modoPreparo = request.getParameter("modoPreparo");
-		int tempoDePreparoMinutos = Integer.parseInt(request.getParameter("tempoDePreparoMinutos"));
-		int qtddPorcoes = Integer.parseInt(request.getParameter("qtddPorcoes"));
+	    if (usuarioLogado != null) {
+	    	boolean nomeJaExiste = false;
+			String nome = request.getParameter("nome");
+			String autor = request.getParameter("autor");
+			
+			for (Receita u : receita_dao.mostrarTodos()) {
+                if (u.getNome().equalsIgnoreCase(nome)) { 
+                	nomeJaExiste = true;
+                    break;
+                }
+            }
+			
+			if (nomeJaExiste) {
+                request.setAttribute("msgErro", "Já existe uma receita com esse nome. Escolha outro nome.");
+                request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+                return; 
+            }
 
-		String[] ingredientesArray = request.getParameterValues("ingredientes");
-		ArrayList<String> ingredientes = new ArrayList<>();
-		if (ingredientesArray != null) {
-		    for (String ingrediente : ingredientesArray) {
-		        ingredientes.add(ingrediente);
-		    }
-		}
+			
+			String modoPreparo = request.getParameter("modoPreparo");
+			int tempoDePreparoMinutos = Integer.parseInt(request.getParameter("tempoDePreparoMinutos"));
+			int qtddPorcoes = Integer.parseInt(request.getParameter("qtddPorcoes"));
+	
+			String[] ingredientesArray = request.getParameterValues("ingredientes");
+			ArrayList<String> ingredientes = new ArrayList<>();
+			if (ingredientesArray != null) {
+			    for (String ingrediente : ingredientesArray) {
+			        ingredientes.add(ingrediente);
+			    }
+			}
+	
+			String[] categoriasArray = request.getParameterValues("categorias");
+			ArrayList<String> categorias = new ArrayList<>();
+			if (categoriasArray != null) {
+			    for (String categoria : categoriasArray) {
+			        categorias.add(categoria);
+			    }
+			}
+	
+			Part filePart = request.getPart("img");
+			String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+			String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
+			File uploadDir = new File(uploadPath);
+			if(!uploadDir.exists()) uploadDir.mkdir();
+			filePart.write(uploadPath + File.separator + fileName); 
+			
+			
+			Receita r = new Receita(0, nome, usuarioLogado.getNome(), tempoDePreparoMinutos, ingredientes, modoPreparo, categorias, qtddPorcoes, fileName);
+	
+			receita_dao.add(r);
+			usuarioLogado.getMinhasReceitas().add(r);
+			
+			sessao.setAttribute("usuarioLogado", usuarioLogado);
+			request.setAttribute("receitas", receita_dao.mostrarTodos());
+			
+			getServletContext().getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+	    } else {
+            request.setAttribute("msgErro", "para poder add receitas tem q estar logado");
+            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
 
-		String[] categoriasArray = request.getParameterValues("categorias");
-		ArrayList<String> categorias = new ArrayList<>();
-		if (categoriasArray != null) {
-		    for (String categoria : categoriasArray) {
-		        categorias.add(categoria);
-		    }
-		}
-
-		Part filePart = request.getPart("img");
-		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-		String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
-		File uploadDir = new File(uploadPath);
-		if(!uploadDir.exists()) uploadDir.mkdir();
-		filePart.write(uploadPath + File.separator + fileName); 
-		
-		
-		Receita r = new Receita(0, nome, usuarioLogado.getNome(), tempoDePreparoMinutos, ingredientes, modoPreparo, categorias, qtddPorcoes, fileName);
-
-		receita_dao.add(r);
-		usuarioLogado.getMinhasReceitas().add(r);
-		
-		sessao.setAttribute("usuarioLogado", usuarioLogado);
-		request.setAttribute("receitas", receita_dao.mostrarTodos());
-		
-		getServletContext().getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+	    }
 	}
 
 }

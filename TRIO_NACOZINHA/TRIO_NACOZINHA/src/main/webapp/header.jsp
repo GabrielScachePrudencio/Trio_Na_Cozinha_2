@@ -9,8 +9,9 @@
 <nav class="menu">
   <h1><a href="#">Trio_Na_Cozinha</a></h1>
   <div class="menu-actions">
-    <form action="ReceitaPesquisa" method="POST">
-      <input type="search" placeholder="Pesquisar">
+	<form action="${pageContext.request.contextPath}/ReceitaServletDetalhada" method="POST">
+
+      <input type="search" name="busca" placeholder="Pesquisar">
       <input type="submit" value="Pesquisar">
     </form>
 	

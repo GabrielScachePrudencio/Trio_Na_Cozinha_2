@@ -18,11 +18,10 @@
 
 
 <!--
-COLOCAR MSG DE ERRO EM TODOS OS SERVLETS PARA Q JOGUEM NA PAGINA DE ERROS
 
-FAZER FUNCIONAR O TODOS OS USUARIOS E RECEITAS
+Fazer o sistema dele ao editar o usuario isso se refletir em todas as receitas 
 
-FAZER O SISTEMA DE BUSCA
+
 
 Arrunmar a pagina inicial colocar certo o index e pagina inicial
 

@@ -37,7 +37,6 @@ public class UsuarioServletEditar extends HttpServlet {
 
 			String id = request.getParameter("id");
 			int id2 = Integer.parseInt(id);
-			
 			Usuario u = usuarioDao.buscarPorID(id2); 
 			System.out.println("ID recebido Editar: " + request.getParameter("id"));
 			System.out.println("ID2 recebido Editar: " + id2);
