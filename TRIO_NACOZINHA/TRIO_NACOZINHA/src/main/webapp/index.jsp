@@ -1,26 +1,7 @@
-<%@page import="br.edu.ifsp.arq.model.*"%>
-<%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Trio_Na_Cozinha</title>
-
-  <link rel="stylesheet" href="css/style.css">
-  
-
-</head>
-<body>
-
-<c:import url="header.jsp" />
-
 
 <!--
-
-Fazer o sistema dele ao editar o usuario isso se refletir em todas as receitas 
-
+	
+Deixar varias receitas prontas desde o inicio
 
 
 Arrunmar a pagina inicial colocar certo o index e pagina inicial
@@ -31,11 +12,63 @@ ser tudo responsivel
 e o video
 
  -->
+
+<%@page import="br.edu.ifsp.arq.model.*"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:import url="header.jsp" />
+
+<nav class="menu">
+  <h1><a href="#">Trio_Na_Cozinha</a></h1>
+  <div class="menu-actions">
+	<form action="${pageContext.request.contextPath}/ReceitaServletDetalhada" method="POST">
+
+      <input type="search" name="busca" placeholder="Pesquisar">
+      <input type="submit" value="Pesquisar">
+    </form>
+	
+	<%
+	
+    	HttpSession sessao = request.getSession();
+	    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+
+	    System.out.println("HEADER usuarioLogado (session): " + usuarioLogado);
+	%>
+	
+
+	<c:choose>
+	
+      <c:when test="${not empty sessionScope.usuarioLogado}">
+        
+        
+        <a href="views/receita/AddReceita.jsp">ADD Receita</a>
+       
+        
+        <p>${sessionScope.usuarioLogado.nome}</p>
+        <a href="views/usuario/Conta.jsp">Conta</a>
+      </c:when>
+
+      <c:otherwise>
+      	<a href="views/extras/SobreNos.jsp"> Sobre nos </a>
+      	<a href="views/receita/AddReceita.jsp" onclick="verificarLogin(${sessionScope.usuarioLogado})">ADD Receita</a>
+      	<p id="mensagem" style="color:red;"></p>
+        <a href="views/usuario/AddUsuario.jsp">Cadastra-se</a>
+        <a href="views/usuario/LogarUsuario.jsp">Logar</a>
+        
+      </c:otherwise>
+    </c:choose>
+	
+  </div>
+</nav>
+
+
+
 <%
 	ArrayList<Receita> receitas = (ArrayList<Receita>) request.getAttribute("receitas");
 	ArrayList<Usuario> usuarios = (ArrayList<Usuario>) request.getAttribute("usuarios");
-	HttpSession sessao = request.getSession();
-    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+	
 
 %>
 <div class="container">
@@ -112,7 +145,6 @@ e o video
 
 	
 <c:import url="footer.jsp" />
-<script src="javaScript/menu.js"></script>
 
 </body>
 </html>

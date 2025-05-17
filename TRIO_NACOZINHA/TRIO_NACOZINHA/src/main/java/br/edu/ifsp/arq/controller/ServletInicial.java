@@ -49,7 +49,7 @@ public class ServletInicial extends HttpServlet {
 			
 			
 			
-			String nomeU = "123", senha = "123", tipoU = "admin", imgU = "usuario/ancelloti.png";
+			String nomeU = "123", senha = "123", imgU = "usuario/ancelloti.png";
 			String autor = nomeU;
 			
 	
@@ -57,7 +57,7 @@ public class ServletInicial extends HttpServlet {
 			Receita r1 = new Receita(0,nome, autor, tempo, ingre, modoPre, categ, qtdd, img);
 			ArrayList<Receita> minhasRece = new ArrayList<Receita>();
 			minhasRece.add(r1);
-			Usuario u = new Usuario(0, nomeU, senha, tipoU, imgU, minhasRece);
+			Usuario u = new Usuario(0, nomeU, senha, imgU, minhasRece);
 			receita_dao.add(r1);
 			usuario_dao.add(u);
 			
@@ -69,7 +69,6 @@ public class ServletInicial extends HttpServlet {
 			
 		HttpSession sessao = request.getSession();
 		sessao.setAttribute("usuarioLogado", null);
-		sessao.setAttribute("isADM", false);
 
 		request.setAttribute("receitas", receita_dao.mostrarTodos());
 		request.setAttribute("usuarios", usuario_dao.mostrarTodos());

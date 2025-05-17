@@ -61,12 +61,12 @@ public class UsuarioServletAdd extends HttpServlet {
             filePart.write(uploadPath + File.separator + fileName);
             ArrayList<Receita> minhasReceitas = new ArrayList<Receita>();
 
-            Usuario u = new Usuario(0, nome, senha, "cliente", fileName, minhasReceitas);
+            Usuario u = new Usuario(0, nome, senha, fileName, minhasReceitas);
             usuario_dao.add(u);
 
             request.setAttribute("usuarios", usuario_dao.mostrarTodos());
             request.setAttribute("receitas", ReceitaDAO.getInstance_R().mostrarTodos());
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+	        request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
 
         } else {
             request.setAttribute("msgErro", "Não pode adicionar outro usuário enquanto estiver logado");

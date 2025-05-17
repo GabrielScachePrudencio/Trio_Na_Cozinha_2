@@ -16,7 +16,6 @@ public class UsuarioServletDeconectar extends HttpServlet {
   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sessao = request.getSession(false);
-		sessao.setAttribute("isADM", false);
         sessao.setAttribute("usuarioLogado", null);
         request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
 

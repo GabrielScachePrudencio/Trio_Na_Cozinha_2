@@ -44,8 +44,6 @@ public class UsuarioServletLogar extends HttpServlet {
 			if (nome != null && senha != null) {
 				for (Usuario u : usuario_dao.mostrarTodos()) {
 					if (u.getNome().equals(nome) && u.getSenha().equals(senha)) {
-						boolean isAdmin = "admin".equals(u.getTipoUsu());
-						sessao.setAttribute("isADM", isAdmin);
 						sessao.setAttribute("usuarioLogado", u);
 
 						request.setAttribute("usuarios", usuario_dao.mostrarTodos());

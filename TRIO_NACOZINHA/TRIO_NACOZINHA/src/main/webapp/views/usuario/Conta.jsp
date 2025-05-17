@@ -10,11 +10,10 @@
 <head>
 <meta charset="UTF-8">
 
+
 <%
 	    	HttpSession sessao = request.getSession();
 		    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
-		    Boolean isADMAttr = (Boolean) sessao.getAttribute("isADM");
-
 		%>
 <title>Conta <%= usuarioLogado.getNome() %></title>
 </head>
@@ -25,14 +24,13 @@
 			<img src="<%= request.getContextPath() %>/imagens/<%= usuarioLogado.getImg() %>" width="200">
 			<h1>Nome: <%= usuarioLogado.getNome() %></h1>
 			<h1>Senha: <%= usuarioLogado.getSenha() %></h1>
-			<h1>tipo: <%= usuarioLogado.getTipoUsu() %></h1>
 			<br>
 		
 			<h1>Suas Receitas:</h1>
 		
 			<br>
 			<c:forEach var="receita" items="${usuarioLogado.minhasReceitas}">
-	   			<div class="receita-card" style="border: 1px solid black">
+	   			<div class="receita-card" onclick="irParaReceitaMaisDetalhada2(${receita.id})" style="border: 1px solid black" >
 			        <img alt="Imagem da Receita" src="${pageContext.request.contextPath}/imagens/${receita.img}" width="200">
 			        
 			        <p>ID: ${receita.id}</p>
@@ -68,12 +66,7 @@
 			<a href="<%= request.getContextPath() %>/UsuarioServletEditar?id=<%= usuarioLogado.getId() %>">Editar Usuario</a>
 			<br>
 		
-			<c:if test="${ sessionScope.isADM }">
-			     	<a href="<%= request.getContextPath() %>/UsuarioServletTodosUsuarios?id=<%= usuarioLogado.getId() %>">Mostrar todos os usuarios criados</a>
-					<br>
-					<a href="<%= request.getContextPath() %>/ReceitaServletTodosReceitas?id=<%= usuarioLogado.getId() %>">Mostrar todos as receitas criadas</a>
-						 
-			</c:if>
+			
 			<br>
 		
 			<a href="<%= request.getContextPath() %>/UsuarioServletDeconectar?id=<%= usuarioLogado.getId() %>">Desconectar da conta </a>
@@ -84,5 +77,14 @@
 			<a href="<%= request.getContextPath() %>/ServletRenovaPrincipal">Voltar a pagina principal</a>
 			
 		</div>
+		
+		
+		<script type="text/javascript">
+		  const contextPath = "${pageContext.request.contextPath}";
+		  function irParaReceitaMaisDetalhada2(id) {
+		    window.location.href = contextPath + "/ReceitaServletDetalhada?id=" + id;
+		  }
+		</script>
+
 </body>
 </html>

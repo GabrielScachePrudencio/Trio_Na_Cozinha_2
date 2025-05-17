@@ -53,6 +53,7 @@ public class UsuarioServletEditar extends HttpServlet {
 
 				out.println("<label for='nome'>Nome da Receita:</label>");
 				out.println("<input type='text' id='nome' name='nome' value='" + u.getNome() + "' required><br><br>");
+				out.println("<input type='hidden' id='nome' name='nomeAntigo' value='" + u.getNome() + "' required><br><br>");
 
 				out.println("<label for='senha'>Senha:</label>");
 				out.println("<input type='text' id='senha' name='senha' value='" + u.getSenha() + "' required><br><br>");

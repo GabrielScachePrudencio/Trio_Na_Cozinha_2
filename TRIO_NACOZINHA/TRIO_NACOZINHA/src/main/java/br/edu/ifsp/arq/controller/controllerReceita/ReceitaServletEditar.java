@@ -54,8 +54,7 @@ public class ReceitaServletEditar extends HttpServlet {
 			out.println("<label for='nome'>Nome da Receita:</label>");
 			out.println("<input type='text' id='nome' name='nome' value='" + receita.getNome() + "' required><br><br>");
 	
-			out.println("<label for='autor'>Autor:</label>");
-			out.println("<input type='text' id='autor' name='autor' value='" + receita.getAutor() + "' required><br><br>");
+			out.println("<label for='autor'>Autor:" +receita.getAutor()+ " </label> <br>");
 	
 			out.println("<label for='modoPreparo'>Modo de Preparo:</label><br>");
 			out.println("<textarea id='modoPreparo' name='modoPreparo' rows='4' cols='50' required>" + receita.getModoPreparo() + "</textarea><br><br>");

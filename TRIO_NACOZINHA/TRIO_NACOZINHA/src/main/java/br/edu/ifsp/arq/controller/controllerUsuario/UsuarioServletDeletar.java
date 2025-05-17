@@ -37,18 +37,14 @@ public class UsuarioServletDeletar extends HttpServlet {
 
 		    Usuario u = usuarioDao.buscarPorID(id2);
 
-		    if (u.getTipoUsu().equals("admin")) {
-		        request.setAttribute("msgErro", "Você não pode deletar um administrador!");
-			    request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
-
-		    } else {
+		    
 		        if (usuarioLogado.getId() == id2) {
 		            sessao.setAttribute("isADM", false);
 		            sessao.setAttribute("usuarioLogado", null);
 		        }
 		        usuarioDao.deletar(id2);
 		        receitaDAO.deletar(id2);
-		    }
+		    
 
 		    request.setAttribute("usuarios", usuarioDao.mostrarTodos());
 		    request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);

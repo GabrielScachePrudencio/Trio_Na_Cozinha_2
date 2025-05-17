@@ -48,7 +48,7 @@ public class ReceitaServletDeletar extends HttpServlet {
 			sessao.setAttribute("usuarioLogado", usuarioLogado);
 			
 			//caminho relativo a raiz da aplicação
-			getServletContext().getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+			getServletContext().getRequestDispatcher("/views/usuario/Conta.jsp").forward(request, response);
 			// caminho relativo ao caminho atual request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
 		} else {
 			request.setAttribute("msgErro", "precisa estar logado para poder deletar");

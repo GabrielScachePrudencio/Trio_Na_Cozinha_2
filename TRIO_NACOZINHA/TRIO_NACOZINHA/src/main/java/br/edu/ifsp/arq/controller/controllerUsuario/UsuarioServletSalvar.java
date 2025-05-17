@@ -40,6 +40,7 @@ public class UsuarioServletSalvar extends HttpServlet {
 	        String id = request.getParameter("id");
 	        int id2 = Integer.parseInt(id);
 	        String nome = request.getParameter("nome");
+	        String nomeAnt = request.getParameter("nomeAntigo");
 	        String senha = request.getParameter("senha");
 	        
 	        ArrayList<Receita> minhasRece = usuarioDao.buscarPorID(id2).getMinhasReceitas();
@@ -48,11 +49,7 @@ public class UsuarioServletSalvar extends HttpServlet {
 	        
 	        Usuario usuarioSendoEditado = usuarioDao.buscarPorID(id2);
 
-	        if (usuarioSendoEditado.getTipoUsu().equals("admin")) {
-	        	request.setAttribute("msgErro", "Não pode alterar os dados do admin.");
-	        	request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
-	        	return;
-	        }
+	      
 	        
 	        for (Usuario u : usuarioDao.mostrarTodos()) {
 	        	if (u.getNome().equalsIgnoreCase(nome) && u.getId() != id2) {
@@ -78,14 +75,15 @@ public class UsuarioServletSalvar extends HttpServlet {
 	            filePart.write(uploadPath + File.separator + fileName);
 	        }
 	        
-	        Usuario u = new Usuario(id2, nome, senha, "cliente", fileName, minhasRece);
+	        Usuario u = new Usuario(id2, nome, senha, fileName, minhasRece);
 	        
 	        usuarioDao.editar(id2, u);
 	        
-	        if(usuarioLogado.getNome().equals(u.getNome())) {
+	        if(usuarioLogado.getNome().equals(nomeAnt)) {
 	        	sessao.setAttribute("usuarioLogado", u);
 	        }
 	        
+	        	
 	        
 	        request.setAttribute("usuarios", usuarioDao.mostrarTodos());
 	        request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);

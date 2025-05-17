@@ -6,15 +6,13 @@ public class Usuario {
 	private int id;
 	private String nome;
 	private String senha;
-	private String tipoUsu;
 	private String img;
 	private ArrayList<Receita> minhasReceitas;
 	
-	public Usuario(int id, String nome, String senha, String tipoUsu, String img, ArrayList<Receita> minhasReceitas) {
+	public Usuario(int id, String nome, String senha, String img, ArrayList<Receita> minhasReceitas) {
 		setId(id);
 		setNome(nome);
 		setSenha(senha);
-		setTipoUsu(tipoUsu);
 		setImg(img);
 		setMinhasReceitas(minhasReceitas);
 	}
@@ -38,12 +36,7 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public String getTipoUsu() {
-		return tipoUsu;
-	}
-	public void setTipoUsu(String tipoUsu) {
-		this.tipoUsu = tipoUsu;
-	}
+	
 	
 	
 	
@@ -74,7 +67,6 @@ public class Usuario {
 	           "\n  ID: " + id +
 	           "\n  Nome: " + nome +
 	           "\n  Senha: " + senha +
-	           "\n  Tipo de Usuário: " + tipoUsu +
 	           "\n}";
 	}
 
