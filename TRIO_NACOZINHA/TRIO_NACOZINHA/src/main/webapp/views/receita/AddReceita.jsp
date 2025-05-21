@@ -1,58 +1,104 @@
 <%@page import="br.edu.ifsp.arq.model.*"%>
 <%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Receitas</title>
+    <title>Adicionar Receita</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<%
-		HttpSession sessao = request.getSession();
-	    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+<%
+    HttpSession sessao = request.getSession();
+    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+%>
 
-	%>
-    <h1>Adicionar Nova Receita ${usuarioLogado.nome}</h1>
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-marrom text-bege ">
+            <h3 class="mb-0 tituloaddreceita">Adicionar Nova Receita - <%= usuarioLogado.getNome() %></h3>
+        </div>
+        <div class="card-body">
+            <form action="<%= request.getContextPath() %>/ReceitaServletAdd" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome da Receita</label>
+                    <input type="text" class="form-control" id="nome" name="nome" required>
+                </div>
 
-    <form action="<%= request.getContextPath() %>/ReceitaServletAdd" method="POST" enctype='multipart/form-data'>  <!-- enctype='multipart/form-data' -->
-        <label for="nome">Nome da Receita:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Autor</label>
+                    <input type="text" class="form-control" value="<%= usuarioLogado.getNome() %>" readonly>
+                </div>
 
-        <label for="autor">Autor:  ${usuarioLogado.nome}</label> <br><br>
+                <div class="mb-3">
+                    <label for="modoPreparo" class="form-label">Modo de Preparo</label>
+                    <textarea class="form-control" id="modoPreparo" name="modoPreparo" rows="4" required></textarea>
+                </div>
 
-        <label for="modoPreparo">Modo de Preparo:</label><br>
-        <textarea id="modoPreparo" name="modoPreparo" rows="4" cols="50" required></textarea><br><br>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="tempoDePreparoMinutos" class="form-label">Tempo de Preparo (min)</label>
+                        <input type="number" class="form-control" id="tempoDePreparoMinutos" name="tempoDePreparoMinutos" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="qtddPorcoes" class="form-label">Quantidade de PorÃ§Ãµes</label>
+                        <input type="number" class="form-control" id="qtddPorcoes" name="qtddPorcoes" required>
+                    </div>
+                </div>
 
-        <label for="tempoDePreparoMinutos">Tempo de Preparo (em minutos):</label>
-        <input type="number" id="tempoDePreparoMinutos" name="tempoDePreparoMinutos" required><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Ingredientes</label>
+                    <div class="row row-cols-2 row-cols-md-3 g-1">
+                        <%
+                            String[] ingredientes = {"AÃ§Ãºcar", "Farinha", "Leite", "Ovo", "Chocolate", "Fermento", "Essencia de baunilha", "Agua", "Guarana", "Coco"};
+                            for (String ing : ingredientes) {
+                        %>
+                            <div class="form-check col">
+                                <input class="form-check-input" type="checkbox" name="ingredientes" value="<%= ing %>" id="ing<%= ing.hashCode() %>">
+                                <label class="form-check-label" for="ing<%= ing.hashCode() %>"><%= ing %></label>
+                            </div>
+                        <%
+                            }
+                        %>
+                    </div>
+                </div>
 
-        <label for="qtddPorcoes">Quantidade de Porções:</label>
-        <input type="number" id="qtddPorcoes" name="qtddPorcoes" required><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Categorias</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="categorias" value="Bolos" id="catBolos">
+                        <label class="form-check-label" for="catBolos">Bolos</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="categorias" value="Biscoitos" id="catBiscoitos">
+                        <label class="form-check-label" for="catBiscoitos">Biscoitos</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="categorias" value="Naturais" id="catNaturais">
+                        <label class="form-check-label" for="catNaturais">Naturais</label>
+                    </div>
+                </div>
 
-        <label for="ingredientes">Ingredientes:</label><br>
-        <input type="checkbox" name="ingredientes" value="Açúcar"> Açúcar<br>
-        <input type="checkbox" name="ingredientes" value="Farinha"> Farinha<br>
-        <input type="checkbox" name="ingredientes" value="Leite"> Leite<br>
-        <input type="checkbox" name="ingredientes" value="Ovo"> Ovo<br>
-        <input type="checkbox" name="ingredientes" value="Chocolate"> Chocolate<br>
-        <input type="checkbox" name="ingredientes" value="Fermento"> Fermento<br>
-        <input type="checkbox" name="ingredientes" value="Essencia de baunilha"> Essencia de baunilha<br>
-        <input type="checkbox" name="ingredientes" value="Agua"> Agua<br>
-        <input type="checkbox" name="ingredientes" value="Guarana"> Guarana<br>
-        <input type="checkbox" name="ingredientes" value="Coco"> Coco<br><br>
+                <div class="mb-3">
+                    <label for="img" class="form-label">Imagem</label>
+                    <input class="form-control" type="file" name="img" id="img" accept="image/*" required>
+                </div>
 
-        <label for="categorias">Categorias:</label><br>
-        <input type="checkbox" name="categorias" value="Bolos"> Bolos<br>
-        <input type="checkbox" name="categorias" value="Biscoitos"> Biscoitos<br>
-        <input type="checkbox" name="categorias" value="Naturais"> Naturais<br><br>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Adicionar Receita</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-		<label for="img">Imagem:  </label>
-		<input type="file" name="img" accept="image/*" required><br><br>
-		
-	
-        <button type="submit">Adicionar Receita</button>
-    </form>
-
-</body>
-</html>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
