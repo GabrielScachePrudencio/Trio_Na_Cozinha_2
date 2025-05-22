@@ -12,21 +12,27 @@
 <nav class="navbar navbar-expand-lg bg-marrom text-bege px-4 py-3">
   <div class="container-fluid justify-content-between">
     <a class="navbar-brand text-bege fs-3" href="#">Trio Na Cozinha</a>
-    
-    <form class="d-flex" role="search" action="${pageContext.request.contextPath}/ReceitaServletDetalhada" method="POST">
-      <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
-      <button class="btn btn-bege" type="submit">Pesquisar</button>
-    </form>
 
     <div class="d-flex align-items-center gap-3">
+      
+      <!-- Botão Sobre nós aparece sempre -->
+      <a href="views/extras/SobreNos.jsp" class="btn btn-outline-bege">Sobre nós</a>
+
       <c:choose>
         <c:when test="${not empty sessionScope.usuarioLogado}">
+          <form class="d-flex" role="search" action="${pageContext.request.contextPath}/ReceitaServletDetalhada" method="POST">
+            <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
+            <button class="btn btn-bege" type="submit">Pesquisar</button>
+          </form>
           <a href="views/receita/AddReceita.jsp" class="btn btn-bege">Adicionar Receita</a>
           <span class="text-bege">${sessionScope.usuarioLogado.nome}</span>
           <a href="views/usuario/Conta.jsp" class="btn btn-outline-bege">Conta</a>
         </c:when>
         <c:otherwise>
-          <a href="views/extras/SobreNos.jsp" class="btn btn-outline-bege">Sobre nós</a>
+          <form class="d-flex" role="search" action="${pageContext.request.contextPath}/ReceitaServletDetalhada" method="POST">
+            <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
+            <button class="btn btn-bege" type="submit">Pesquisar</button>
+          </form>
           <a href="views/receita/AddReceita.jsp" class="btn btn-bege" onclick="verificarLogin(${sessionScope.usuarioLogado})">Adicionar Receita</a>
           <p id="mensagem" class="text-danger m-0"></p>
           <a href="views/usuario/AddUsuario.jsp" class="btn btn-outline-bege">Cadastrar-se</a>
@@ -37,6 +43,42 @@
   </div>
 </nav>
 
+
+
+<!--  
+<nav class="navbar navbar-expand-lg bg-marrom text-bege px-4 py-3">
+  <div class="container-fluid justify-content-between">
+    <a class="navbar-brand text-bege fs-3" href="#">Trio Na Cozinha</a>
+    
+    
+
+    <div class="d-flex align-items-center gap-3">
+      <c:choose>
+        <c:when test="${not empty sessionScope.usuarioLogado}">
+        <form class="d-flex" role="search" action="${pageContext.request.contextPath}/ReceitaServletDetalhada" method="POST">
+	      <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
+	      <button class="btn btn-bege" type="submit">Pesquisar</button>
+	    </form>
+          <a href="views/receita/AddReceita.jsp" class="btn btn-bege">Adicionar Receita</a>
+          <span class="text-bege">${sessionScope.usuarioLogado.nome}</span>
+          <a href="views/usuario/Conta.jsp" class="btn btn-outline-bege">Conta</a>
+        </c:when>
+        <c:otherwise>
+          <form class="d-flex" role="search" action="${pageContext.request.contextPath}/ReceitaServletDetalhada" method="POST">
+	      <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
+	      <button class="btn btn-bege" type="submit">Pesquisar</button>
+	    </form>
+          <a href="views/extras/SobreNos.jsp" class="btn btn-outline-bege">Sobre nós</a>
+          <a href="views/receita/AddReceita.jsp" class="btn btn-bege" onclick="verificarLogin(${sessionScope.usuarioLogado})">Adicionar Receita</a>
+          <p id="mensagem" class="text-danger m-0"></p>
+          <a href="views/usuario/AddUsuario.jsp" class="btn btn-outline-bege">Cadastrar-se</a>
+          <a href="views/usuario/LogarUsuario.jsp" class="btn btn-outline-bege">Logar</a>
+        </c:otherwise>
+      </c:choose>
+    </div>
+  </div>
+</nav>
+-->
 <%
 	ArrayList<Receita> receitas = (ArrayList<Receita>) request.getAttribute("receitas");
 	ArrayList<Usuario> usuarios = (ArrayList<Usuario>) request.getAttribute("usuarios");

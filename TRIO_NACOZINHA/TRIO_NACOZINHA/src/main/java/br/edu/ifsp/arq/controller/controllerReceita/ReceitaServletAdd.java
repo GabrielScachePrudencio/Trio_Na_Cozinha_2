@@ -30,6 +30,7 @@ public class ReceitaServletAdd extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    
 		HttpSession sessao = request.getSession();
 	    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
 	    
