@@ -13,55 +13,73 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background: #f5f6fa;
-            font-family: 'Poppins', sans-serif;
-        }
-        .form-container {
-            background-color: #f2ce91;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0px 5px 30px rgba(0,0,0,0.1);
-            color: white;
-            max-width: 700px;
-            margin: 50px auto;
-        }
-        .form-container h2 {
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-container label {
-            font-weight: bold;
-            margin-top: 15px;
-        }
-        .form-container input,
-        .form-container textarea {
-            background-color: transparent;
-            border: none;
-            border-bottom: 2px solid white;
-            border-radius: 0;
-            color: white;
-        }
-        .form-container input:focus,
-        .form-container textarea:focus {
-            box-shadow: none;
-            border-color: white;
-            outline: none;
-        }
-        .form-container .btn {
-            margin-top: 30px;
-            background-color: transparent;
-            color: white;
-            font-weight: bold;
-            border: none;
-        }
-        .form-container .btn:hover {
-            color: #f2ce91;
-            background-color: white;
-        }
-    </style>
+   <style>
+    body {
+        background: black;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .form-container {
+        background-color: #ffc107; /* amarelo principal */
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
+        color: #212529;
+        max-width: 700px;
+        margin: 50px auto;
+    }
+
+    .form-container h2 {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 30px;
+        color: #212529;
+    }
+
+    .form-container label {
+        font-weight: bold;
+        margin-top: 15px;
+        color: #212529;
+    }
+
+    .form-control {
+        background-color: transparent;
+        border: 2px solid #212529;
+        border-radius: 5px;
+        color: #212529;
+    }
+
+    .form-control:focus {
+        border-color: #212529;
+        box-shadow: none;
+        background-color: #fffde7;
+    }
+
+    .form-check-label {
+        color: #212529;
+    }
+
+    .form-container .btn {
+        margin-top: 30px;
+        background-color: #212529; /* preto metálico */
+        color: #ffc107;
+        font-weight: bold;
+        border-radius: 25px;
+        padding: 10px 25px;
+        transition: 0.3s;
+    }
+
+    .form-container .btn:hover {
+        background-color: #ffc107;
+        color: #212529;
+        border: 2px solid #212529;
+    }
+    
+    .text-center{
+    	
+    }
+</style>
+   
 </head>
 
 <body>
@@ -70,7 +88,11 @@
     HttpSession sessao = request.getSession();
     Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
 %>
-
+	<div class="text-center mt-5">
+        <a href="<%= request.getContextPath() %>/ServletRenovaPrincipal" class="btn btn-warning">
+            <i class="fa-solid fa-arrow-left"></i> Voltar para a página principal
+        </a>
+    </div>
 <div class="form-container">
     <h2>Adicionar nova Receita</h2>
     <form action="<%= request.getContextPath() %>/ReceitaServletAdd" method="POST" enctype="multipart/form-data">
@@ -134,8 +156,10 @@
         <textarea class="form-control" id="modoPreparo" name="modoPreparo" rows="3" required></textarea>
         
 		
-        <div class="text-center">
-            <button type="submit" class="btn">Adicionar</button>
+        <div class="d-flex justify-content-end">
+        	
+            <div class="d-flex justify-content-end">
+    <button type="submit" class="btn">Adicionar</button>
         </div>
     </form>
 </div>

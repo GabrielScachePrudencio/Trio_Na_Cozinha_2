@@ -42,13 +42,10 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
         <a class="navbar-brand" href="<%= request.getContextPath() %>/ServletRenovaPrincipal">
-            Trio Na Cozinha
+            <img src="<%= request.getContextPath() %>/imagens/logo/logo_pageindex.png"
+                alt="Trio Na Cozinha" height="40">
         </a>
-        <div class="text-center mt-5">
-        <a href="<%= request.getContextPath() %>/ServletRenovaPrincipal" class="btn btn-warning">
-            <i class="fa-solid fa-arrow-left"></i> Voltar para a página principal
-        </a>
-    </div>
+        <a href="<%= request.getContextPath() %>/ServletRenovaPrincipal" class="btn btn-warning"> <i class="fa-solid fa-arrow-left"></i> Voltar para a página principal </a>
     </div>
 </nav>
 
@@ -64,13 +61,13 @@
         <!-- Gabriel -->
         <div class="col-md-4">
             <div class="card text-center p-3">
-                <img src="img/gsp.jpeg" alt="Gabriel Scache">
+                <img src="img/gabriel1.jpg" alt="Gabriel Scache">
                 <div class="card-body">
                     <h5 class="card-title">Gabriel Scache Prudencio</h5>
-                    <p>Desenvolvedor, organizador e fã de pratos bem feitos.</p>
+                    <p>Desenvolvedor, organizador e fã de pratos bem feitos, sempre está atento em tudo.</p>
                     <p><i class="fa-solid fa-envelope"></i> bielscache@gmail.com</p>
                     <p>
-                        <a href="https://www.instagram.com/gabrielscache/" target="_blank">
+                        <a href="https://www.instagram.com/gabrielscache?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
                             <i class="fa-brands fa-instagram"></i> @gabrielscache
                         </a>
                         <br>
@@ -85,18 +82,18 @@
         <!-- Jonas -->
         <div class="col-md-4">
             <div class="card text-center p-3">
-                <img src="img/jonas.jpeg" alt="Jonas Gonçalves">
+                <img src="img/jonas.jpg" alt="Jonas Gonçalves">
                 <div class="card-body">
                     <h5 class="card-title">Jonas Gonçalves</h5>
                     <p>Desenvolvedor, criativo e responsável por deixar tudo com um toque especial.</p>
-                    <p><i class="fa-solid fa-envelope"></i> jonas@email.com</p>
+                    <p><i class="fa-solid fa-envelope"></i> Jonasbem20100@gmail.com</p>
                     <p>
-                        <a href="https://www.instagram.com/jonasperfil/" target="_blank">
-                            <i class="fa-brands fa-instagram"></i> @jonasperfil
+                        <a href="https://www.instagram.com/jonas_goncalvess15?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+                            <i class="fa-brands fa-instagram"></i> @jonas_goncalvess15
                         </a>
                         <br>
-                        <a href="https://github.com/jonasperfil" target="_blank">
-                            <i class="fa-brands fa-github"></i> jonasperfil
+                        <a href="https://github.com/jonasgoncalvesfernandes" target="_blank">
+                            <i class="fa-brands fa-github"></i> jonasGonçalves
                         </a>
                     </p>
                 </div>
@@ -106,7 +103,7 @@
         <!-- Wesley -->
         <div class="col-md-4">
             <div class="card text-center p-3">
-                <img src="img/wms.jpeg" alt="Wesley Martins">
+                <img src="img/wesley.jpg" alt="Wesley Martins">
                 <div class="card-body">
                     <h5 class="card-title">Wesley Martins de Souza</h5>
                     <p>Desenvolvedor, cuida dos detalhes e garante que tudo funcione direitinho.</p>
