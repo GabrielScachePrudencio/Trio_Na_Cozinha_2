@@ -49,6 +49,10 @@
     </div>
 </nav>
 
+
+		<h1>COLOCAR DESCRICAO DE COMO FUNCIONA O SISTEMA</h1>1
+
+
 <!-- Conteúdo Sobre Nós -->
 <div class="container my-5">
     <h2 class="text-center mb-4">Sobre Nós</h2>
@@ -128,6 +132,7 @@
         </a>
     </div>
 </div>
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

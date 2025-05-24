@@ -11,7 +11,5 @@ function verificarLogin(logado) {
 	  }
 }
 
-function irParaReceitaMaisDetalhada(id) {
-	window.location.href = "${pageContext.request.contextPath}/ReceitaServletDetalhada?id=" + id;
-}
+
 
