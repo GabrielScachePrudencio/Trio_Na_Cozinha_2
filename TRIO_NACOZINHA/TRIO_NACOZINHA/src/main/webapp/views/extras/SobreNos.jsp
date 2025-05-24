@@ -50,7 +50,22 @@
 </nav>
 
 
-		<h1>COLOCAR DESCRICAO DE COMO FUNCIONA O SISTEMA</h1>1
+		<h1 class="text-center my-4">Como Funciona o Sistema</h1>
+
+<div class="container mb-5">
+    <p>
+        Nosso sistema de gerenciamento de receitas culinárias permite que usuários cadastrados adicionem, visualizem, atualizem e removam receitas. 
+        Cada receita contém informações como nome, autor, tempo de preparo, ingredientes, modo de preparo, categoria, rendimento e avaliação dos usuários.
+    </p>
+    <p>
+        Na página inicial, destacamos receitas em destaque, novidades e as mais populares. Apenas usuários registrados podem adicionar, editar ou excluir receitas. 
+        O menu principal oferece as opções Home, Sobre o Sistema e Login, com uma barra de busca sempre acessível. Quando logados, os usuários têm acesso a opções extras, como adicionar receitas e gerenciar suas configurações pessoais.
+    </p>
+    <p>
+        Se um usuário tentar acessar uma página não autorizada, será redirecionado para uma página de erro informativa. Ao clicar em uma receita, é possível ver seus detalhes completos.
+    </p>
+</div>
+		
 
 
 <!-- Conteúdo Sobre Nós -->
@@ -65,7 +80,7 @@
         <!-- Gabriel -->
         <div class="col-md-4">
             <div class="card text-center p-3">
-                <img src="img/gabriel1.jpg" alt="Gabriel Scache">
+                <img src ="${pageContext.request.contextPath}/imgCriadores/img/gabriel.jpg">
                 <div class="card-body">
                     <h5 class="card-title">Gabriel Scache Prudencio</h5>
                     <p>Desenvolvedor, organizador e fã de pratos bem feitos, sempre está atento em tudo.</p>
@@ -86,7 +101,7 @@
         <!-- Jonas -->
         <div class="col-md-4">
             <div class="card text-center p-3">
-                <img src="img/jonas.jpg" alt="Jonas Gonçalves">
+                <img src="${pageContext.request.contextPath}/imgCriadores/img/jonas.jpg" alt="Jonas Gonçalves">
                 <div class="card-body">
                     <h5 class="card-title">Jonas Gonçalves</h5>
                     <p>Desenvolvedor, criativo e responsável por deixar tudo com um toque especial.</p>
@@ -107,7 +122,7 @@
         <!-- Wesley -->
         <div class="col-md-4">
             <div class="card text-center p-3">
-                <img src="img/wesley.jpg" alt="Wesley Martins">
+                <img src="${pageContext.request.contextPath}/imgCriadores/img/wesley.jpg" alt="Wesley Martins">
                 <div class="card-body">
                     <h5 class="card-title">Wesley Martins de Souza</h5>
                     <p>Desenvolvedor, cuida dos detalhes e garante que tudo funcione direitinho.</p>
