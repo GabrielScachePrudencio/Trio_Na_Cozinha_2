@@ -40,7 +40,7 @@ public class ServletInicial extends HttpServlet {
 			String nome = "Bolo de Chocolate", modoPre = "mecha ovos e leite e misture com o fermento", img = "receita/boloChocolate.jpg";
 			int tempo = 100, qtdd = 1;
 			ArrayList<String> ingre = new ArrayList<String>();
-			ingre.add("avelã");
+			ingre.add("avelá");
 			ingre.add("farinha");
 			ingre.add("3 ovos");
 			ingre.add("manteiga");
