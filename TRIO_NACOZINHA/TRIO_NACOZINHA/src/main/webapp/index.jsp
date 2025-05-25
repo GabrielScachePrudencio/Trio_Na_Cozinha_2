@@ -4,7 +4,6 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:import url="header.jsp" />
 
-<!-- Link para CSS externo -->
 <link rel="stylesheet" href="${ctx}/css/style.css">
 
 <nav class="navbar navbar-expand-lg bg-marrom text-bege px-4 py-3">
@@ -49,7 +48,24 @@
           <img src="${ctx}/imagens/${receita.img}" class="card-img-top" alt="Imagem da Receita">
           <div class="card-body">
             <h5 class="card-title text-center">${receita.nome}</h5>
-            <p class="card-text">Autor: ${receita.autor}</p>
+            <p class="card-text"><strong>Autor:</strong> ${receita.autor}</p>
+
+            <p class="mb-1"><strong>Ingredientes:</strong></p>
+            <ul>
+              <c:forEach var="ingrediente" items="${receita.ingredientes}">
+                <li>${ingrediente}</li>
+              </c:forEach>
+            </ul>
+
+            <p class="mb-1"><strong>Modo de Preparo:</strong></p>
+            <p style="font-size: 0.85rem;">${receita.modoPreparo}</p>
+
+            <p class="mb-1"><strong>Categorias:</strong></p>
+            <ul>
+              <c:forEach var="categoria" items="${receita.categorias}">
+                <li>${categoria}</li>
+              </c:forEach>
+            </ul>
           </div>
         </div>
       </c:forEach>
@@ -64,12 +80,10 @@
       <img src="imagens/logo/carrosellogo.png" class="d-block w-100" alt="Trio na Cozinha">
     </div>
     <div class="carousel-item">
-      <img src="https://www.receiteria.com.br/wp-content/uploads/bolo-de-aniversario.jpeg"
-        class="d-block w-100" alt="Bolo de Aniversário">
+      <img src="imagens/logo/PratosComida.png" class="d-block w-100" alt="Comidas">
     </div>
     <div class="carousel-item">
-      <img src="https://www.receiteria.com.br/wp-content/uploads/bolo-de-aniversario.jpeg"
-        class="d-block w-100" alt="Comida Deliciosa">
+      <img src="imagens/logo/PratosComida3.jpg" class="d-block w-100" alt="Comida Deliciosa">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -90,18 +104,8 @@
       <div class="card card-bege h-100 p-3" onclick="irParaReceitaMaisDetalhada5(${receita.id})">
         <img src="${ctx}/imagens/${receita.img}" class="card-img-top" alt="Imagem da Receita">
         <div class="card-body">
-          <h5 class="card-title" style="text-align: center">${receita.nome}</h5>
-          <p class="card-text">Autor: ${receita.autor}</p>
-            <c:forEach var="ingrediente" items="${receita.ingredientes}">
-              <li>${ingrediente}</li>
-            </c:forEach>
-          </ul>
-          <p>Modo de Preparo: ${receita.modoPreparo}</p>
-          <p>Categorias:</p>
-          <ul>
-            <c:forEach var="categoria" items="${receita.categorias}">
-              <li>${categoria}</li>
-            </c:forEach>
+          <h5 class="card-title text-center">${receita.nome}</h5>
+          <p class="card-text"><strong>Autor:</strong> ${receita.autor}</p>
           </ul>
         </div>
       </div>
@@ -112,17 +116,10 @@
 <footer>
   <div class="footer-container">
     <div class="developers">
-      <div class="developer">
-        <h3>Gabriel Scache Prudencio</h3>
-      </div>
-      <div class="developer">
-        <h3>Jonas Gonçalves</h3>
-      </div>
-      <div class="developer">
-        <h3>Wesley Martins de Souza</h3>
-      </div>
+      <div class="developer"><h3>Gabriel Scache Prudencio</h3></div>
+      <div class="developer"><h3>Jonas Gonçalves</h3></div>
+      <div class="developer"><h3>Wesley Martins de Souza</h3></div>
     </div>
-
     <div class="footer-bottom">
       &copy; 2025 Trio Na Cozinha. Todos os direitos reservados.
     </div>
@@ -145,8 +142,8 @@
   }
 
   .carousel-item img {
-    width: 100vw;
-    height: 500px;
+    width: 100%;
+    height: 600px;
     object-fit: cover;
   }
 
@@ -161,7 +158,6 @@
     background-color: #000;
     color: #fff;
     padding: 40px 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .footer-container {
@@ -180,13 +176,6 @@
   .developer {
     text-align: center;
     max-width: 300px;
-  }
-
-  .developer h3 {
-    font-size: 18px;
-    font-weight: 500;
-    margin: 0;
-    color: #f4f4f4;
   }
 
   .footer-bottom {
@@ -249,7 +238,7 @@
   .card.card-bege ul {
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
-    color: #fff;
+    color: #000;
   }
 
   .card.card-bege ul {
@@ -257,10 +246,8 @@
     margin: 0;
     max-height: 80px;
     overflow-y: auto;
-    color: #fff;
   }
 
-  /* Scroll nas listas do card */
   .card-body ul::-webkit-scrollbar {
     width: 6px;
   }

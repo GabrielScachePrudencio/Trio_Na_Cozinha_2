@@ -19,135 +19,155 @@
     <title>Conta - <%= usuarioLogado.getNome() %></title>
     <link rel="icon" href="${ctx}/imagens/logo/iconsite.png" type="image/png">
 
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        .conta {
-            max-width: 900px;
-            background: #fff;
-            margin: 30px auto;
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        }
+...
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+    }
+    .conta {
+        max-width: 900px;
+        background: #fff;
+        margin: 30px auto;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .conta img {
+        display: block;
+        margin: 0 auto 25px auto;
+        width: 400px;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow:
+            0 0 0 4px white,
+            0 2px 8px rgba(0, 0, 0, 0.15);
+        transition: box-shadow 0.3s ease;
+    }
+    .conta img:hover {
+        box-shadow:
+            0 0 0 4px #c13584,
+            0 4px 20px rgba(193, 53, 132, 0.6);
+    }
+    @media (max-width: 480px) {
         .conta img {
-            display: block;
-            margin: 0 auto 25px auto;
-            width: 400px;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 50%;
-            box-shadow:
-                0 0 0 4px white,
-                0 2px 8px rgba(0, 0, 0, 0.15);
-            transition: box-shadow 0.3s ease;
+            width: 100px;
+            height: 100px;
         }
-        .conta img:hover {
-            box-shadow:
-                0 0 0 4px #c13584,
-                0 4px 20px rgba(193, 53, 132, 0.6);
-        }
-        @media (max-width: 480px) {
-            .conta img {
-                width: 100px;
-                height: 100px;
-            }
-        }
-        h1 {
-            text-align: center;
-            color: #6a4c93;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-        h2 {
-            margin-top: 40px;
-            color: #444;
-            border-bottom: 2px solid #6a4c93;
-            padding-bottom: 5px;
-        }
-        .receita-card {
-            background: #fafafa;
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .receita-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-        }
+    }
+    h1 {
+        text-align: center;
+        color: #6a4c93;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+    h2 {
+        margin-top: 40px;
+        color: #444;
+        border-bottom: 2px solid #6a4c93;
+        padding-bottom: 5px;
+    }
+    .receita-card {
+        background: #fafafa;
+        border-radius: 8px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .receita-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+    .receita-card img {
+        float: left;
+        margin-right: 20px;
+        border-radius: 6px;
+        width: 180px;
+        height: 120px;
+        object-fit: cover;
+    }
+    .receita-card p {
+        margin: 5px 0;
+        font-size: 0.95rem;
+        color: #555;
+    }
+    .receita-card ul {
+        list-style: disc inside;
+        margin: 5px 0 10px 0;
+        padding-left: 0;
+    }
+    .receita-card ul li {
+        font-size: 0.9rem;
+        color: #666;
+    }
+    .receita-card a {
+        display: inline-block;
+        margin-top: 8px;
+        margin-right: 10px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        color: #6a4c93;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+    .receita-card a:hover {
+        color: #9b76c1;
+        text-decoration: underline;
+    }
+
+    .links-conta {
+        margin-top: 40px;
+        text-align: center;
+    }
+    .links-conta a {
+        margin: 10px;
+        color: #6a4c93;
+        text-decoration: none;
+        font-weight: 600;
+        border: 2px solid #6a4c93;
+        padding: 10px 20px;
+        border-radius: 30px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        display: inline-block;
+    }
+    .links-conta a:hover {
+        background-color: #6a4c93;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
         .receita-card img {
-            float: left;
-            margin-right: 20px;
-            border-radius: 6px;
-            width: 180px;
-            height: 120px;
-            object-fit: cover;
-        }
-        .receita-card p {
-            margin: 5px 0;
-            font-size: 0.95rem;
-            color: #555;
-        }
-        .receita-card ul {
-            list-style: disc inside;
-            margin: 5px 0 10px 0;
-            padding-left: 0;
-        }
-        .receita-card ul li {
-            font-size: 0.9rem;
-            color: #666;
-        }
-        .receita-card a {
-            display: inline-block;
-            margin-top: 8px;
-            margin-right: 10px;
-            font-size: 0.9rem;
-            text-decoration: none;
-            color: #6a4c93;
-            font-weight: 600;
-            transition: color 0.2s ease;
-        }
-        .receita-card a:hover {
-            color: #9b76c1;
-            text-decoration: underline;
-        }
-        .links-conta {
-            margin-top: 40px;
-            text-align: center;
-        }
-        .links-conta a {
-            margin: 0 15px;
-            color: #6a4c93;
-            text-decoration: none;
-            font-weight: 600;
-            border: 2px solid #6a4c93;
-            padding: 10px 20px;
-            border-radius: 30px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .links-conta a:hover {
-            background-color: #6a4c93;
-            color: white;
+            float: none;
+            display: block;
+            margin: 0 auto 15px auto;
+            width: 100%;
+            height: auto;
         }
 
-        @media (max-width: 768px) {
-            .receita-card img {
-                float: none;
-                display: block;
-                margin: 0 auto 15px auto;
-                width: 100%;
-                height: auto;
-            }
+        .links-conta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
-    </style>
+
+        .links-conta a {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 5px auto;
+            text-align: center;
+        }
+    }
+</style>
+...
+
 </head>
 
 <body>
