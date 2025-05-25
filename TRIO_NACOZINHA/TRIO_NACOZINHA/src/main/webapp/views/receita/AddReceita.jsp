@@ -10,6 +10,8 @@
     <meta charset="UTF-8">
     <title>Adicionar Receita</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- Favicon -->
+  <link rel="icon" href="${ctx}/imagens/logo/iconsite.png" type="image/png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -113,9 +115,8 @@
             <label class="form-label">Ingredientes:</label>
             <div class="row row-cols-2 row-cols-md-3 g-1">
                 <%
-                    String[] ingredientes = {"Açúcar", "Farinha", "Leite", "Ovo", "Chocolate", "Fermento", "Essência de baunilha", "Água", "Guaraná", "Coco", "avelã",
-                    		 "manteiga"};
-                    for (String ing : ingredientes) {
+                String[] todosIngredientes = {"Açúcar", "Farinha", "Leite", "Ovo", "Chocolate", "Fermento", "Essência de baunilha", "Água", "Guaraná", "Coco", "Avelã", "Manteiga", "3 ovos"};
+                    for (String ing : todosIngredientes) {
                 %>
                     <div class="form-check col">
                         <input class="form-check-input" type="checkbox" name="ingredientes" value="<%= ing %>" id="ing<%= ing.hashCode() %>">
