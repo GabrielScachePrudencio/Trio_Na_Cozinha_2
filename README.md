@@ -1,7 +1,8 @@
 ﻿# 🍽️ Trio na Cozinha
 LINK VIDEO: https://youtu.be/Dpu15huDBno
 
-![image](https://github.com/user-attachments/assets/5f963b95-6a6b-4652-ac86-c5a8b75f67dc)
+![image](![image](https://github.com/user-attachments/assets/ffd96a97-04a5-41ab-b86b-d5ad72a4b718)
+)
 
 Projeto desenvolvido em Java utilizando Maven e JSP para criação de um sistema web simples, ideal para gerenciamento de receitas culinárias, equipe e preparo de pratos.  
 
