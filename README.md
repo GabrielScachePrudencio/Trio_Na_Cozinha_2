@@ -1,4 +1,5 @@
 ﻿# 🍽️ Trio na Cozinha
+LINK VIDEO: https://youtu.be/Dpu15huDBno
 
 ![image](https://github.com/user-attachments/assets/5f963b95-6a6b-4652-ac86-c5a8b75f67dc)
 
