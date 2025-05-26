@@ -33,7 +33,10 @@ public class UsuarioServletSalvar extends HttpServlet {
 
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession sessao = request.getSession();
+    	try {
+          
+        
+    	HttpSession sessao = request.getSession();
         Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
         
         if(usuarioLogado != null) {	
@@ -91,7 +94,11 @@ public class UsuarioServletSalvar extends HttpServlet {
         request.setAttribute("msgErro", "precisa estar logado para poder salvar");
 	    request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
 
-
+    	} catch (Exception e) {
+            e.printStackTrace(); // Mostra no console do servidor
+            request.setAttribute("msgErro", "Erro interno ao salvar o usuário.");
+            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+        }
     }
 
 }
