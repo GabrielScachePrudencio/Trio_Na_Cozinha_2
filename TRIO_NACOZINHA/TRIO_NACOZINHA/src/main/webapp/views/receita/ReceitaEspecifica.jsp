@@ -14,6 +14,43 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
+
+	.navbar {
+	    background-color: #ffc107;
+	    color: #f8f9fa;
+	}
+	
+	/* Links da navbar */
+	.navbar a {
+	    color: #f8f9fa;
+	}
+	
+	.navbar a:hover {
+	    color: #212529;
+	}
+	
+	/* Botões */
+	.btn-bege {
+	    background-color: #ffc107;
+	    color: #212529;
+	    border: none;
+	}
+	
+	.btn-bege:hover {
+	    background-color: #e0a800;
+	    color: white;
+	}
+	
+	.btn-outline-bege {
+	    background-color: transparent;
+	    color: #ffc107;
+	    border: 2px solid #ffc107;
+	}
+	
+	.btn-outline-bege:hover {
+	    background-color: #ffc107;
+	    color: #212529;
+	}
     .hover-effect:hover {
         background-color: black;
         color: white;
@@ -45,50 +82,37 @@
 
 <body>
 
-<div class="container mb-4 mt-4">
-  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-    <a href="<%= request.getContextPath() %>/ServletRenovaPrincipal" class="navbar-brand text-bege fs-3 ">
-      Trio Na Cozinha
+<nav class="navbar navbar-expand-lg bg-marrom text-bege px-4 py-3 mb-5">
+  <div class="container-fluid justify-content-between">
+	<a href="<%= request.getContextPath() %>/ServletRenovaPrincipal" class="navbar-brand">
+      <img src="imagens/logo/logo_pageindex.png" alt="Trio Na Cozinha" height="40">
     </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="views/extras/SobreNos.jsp" class="btn btn-outline-bege">Sobre nós</a>
 
-    <!-- Container com botão e menu, lado a lado -->
-	<div class="d-flex align-items-center gap-3">
-	  <button
-	    class="btn btn-primary"
-	    type="button"
-	    data-bs-toggle="collapse"
-	    data-bs-target="#menuOpcoes"
-	    aria-expanded="false"
-	    aria-controls="menuOpcoes"
-	  >
-	    Opções
-	  </button>
-	
-	  <div class="collapse" id="menuOpcoes">
-	    <div class="d-flex gap-2 flex-wrap align-items-center">
-	    <form class="d-flex" role="search" action="${pageContext.request.contextPath}/ReceitaServletDetalhada" method="POST">
-	      <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
-	      <button class="btn btn-bege" type="submit">Pesquisar</button>
-	    </form>
-	      <c:choose>
-	        <c:when test="${not empty sessionScope.usuarioLogado}">
-	          <a href="views/receita/AddReceita.jsp" class="btn btn-bege">Adicionar Receita</a>
-	          <span class="text-bege">${sessionScope.usuarioLogado.nome}</span>
-	          <a href="views/usuario/Conta.jsp" class="btn btn-outline-bege">Conta</a>
-	        </c:when>
-	        <c:otherwise>
-	          <a href="views/extras/SobreNos.jsp" class="btn btn-outline-bege">Sobre nós</a>
-	          <a href="views/receita/AddReceita.jsp" class="btn btn-bege" onclick="verificarLogin(${sessionScope.usuarioLogado})">Adicionar Receita</a>
-	          <p id="mensagem" class="text-danger m-0"></p>
-	          <a href="views/usuario/AddUsuario.jsp" class="btn btn-outline-bege">Cadastrar-se</a>
-	          <a href="views/usuario/LogarUsuario.jsp" class="btn btn-outline-bege">Logar</a>
-	        </c:otherwise>
+      <c:choose>
+        <c:when test="${not empty sessionScope.usuarioLogado}">
+          <form class="d-flex" role="search" action="${ctx}/ReceitaServletDetalhada" method="POST">
+            <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
+            <button class="btn btn-bege" type="submit">Pesquisar</button>
+          </form>
+          <a href="views/receita/AddReceita.jsp" class="btn btn-bege">Adicionar Receita</a>
+          <span class="text-bege">${sessionScope.usuarioLogado.nome}</span>
+          <a href="views/usuario/Conta.jsp" class="btn btn-outline-bege">Conta</a>
+        </c:when>
+        <c:otherwise>
+          <form class="d-flex" role="search" action="${ctx}/ReceitaServletDetalhada" method="POST">
+            <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
+            <button class="btn btn-bege" type="submit">Pesquisar</button>
+          </form>
+          <a href="views/usuario/LogarUsuario.jsp" class="btn btn-bege">Adicionar Receita</a>
+          <a href="views/usuario/AddUsuario.jsp" class="btn btn-outline-bege">Cadastrar-se</a>
+          <a href="views/usuario/LogarUsuario.jsp" class="btn btn-outline-bege">Logar</a>
+        </c:otherwise>
       </c:choose>
-      </div>
-      </div>
     </div>
   </div>
-</div>
+</nav>
 
 
        

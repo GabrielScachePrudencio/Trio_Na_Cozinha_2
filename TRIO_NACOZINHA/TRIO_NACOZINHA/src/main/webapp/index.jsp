@@ -21,8 +21,11 @@
             <button class="btn btn-bege" type="submit">Pesquisar</button>
           </form>
           <a href="views/receita/AddReceita.jsp" class="btn btn-bege">Adicionar Receita</a>
-          <span class="text-bege">${sessionScope.usuarioLogado.nome}</span>
-          <a href="views/usuario/Conta.jsp" class="btn btn-outline-bege">Conta</a>
+          <a href="views/usuario/Conta.jsp" class="btn btn-outline-bege">
+          
+			<img src="<%= request.getContextPath() %>/imagens/${sessionScope.usuarioLogado.img}" alt="Foto de ${ sessionScope.usuarioLogado.img}" class="imgPerfil">
+          	<span class="text-bege">${sessionScope.usuarioLogado.nome}</span>
+          </a>
         </c:when>
         <c:otherwise>
           <form class="d-flex" role="search" action="${ctx}/ReceitaServletDetalhada" method="POST">
@@ -38,7 +41,7 @@
   </div>
 </nav>
 
-<!-- SUAS RECEITAS -->
+
 <div class="container my-5" style="background-color: #fff4e6; padding: 20px; border-radius: 12px;">
   <c:if test="${not empty sessionScope.usuarioLogado}">
     <h2 class="mb-4" style="color: #d35400; font-weight: 700;">Suas receitas</h2>

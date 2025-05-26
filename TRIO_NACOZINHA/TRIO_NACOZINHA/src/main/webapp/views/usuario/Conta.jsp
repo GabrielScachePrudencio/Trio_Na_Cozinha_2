@@ -19,7 +19,6 @@
     <title>Conta - <%= usuarioLogado.getNome() %></title>
     <link rel="icon" href="${ctx}/imagens/logo/iconsite.png" type="image/png">
 
-...
 <style>
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -166,7 +165,7 @@
         }
     }
 </style>
-...
+
 
 </head>
 
