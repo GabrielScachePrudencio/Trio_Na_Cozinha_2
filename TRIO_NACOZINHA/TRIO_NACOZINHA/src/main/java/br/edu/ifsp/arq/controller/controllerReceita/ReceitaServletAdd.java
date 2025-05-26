@@ -1,101 +1,125 @@
 package br.edu.ifsp.arq.controller.controllerReceita;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 
-import br.edu.ifsp.arq.model.*;
-import br.edu.ifsp.arq.dao.*;
-import java.util.ArrayList;
+import br.edu.ifsp.arq.dao.ReceitaDAO;
+import br.edu.ifsp.arq.model.Receita;
+import br.edu.ifsp.arq.model.Usuario;
 
 @WebServlet("/ReceitaServletAdd")
 @MultipartConfig
 public class ReceitaServletAdd extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private ReceitaDAO receita_dao;
-    	
+
     public ReceitaServletAdd() {
         super();
         receita_dao = ReceitaDAO.getInstance_R();
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  request.setCharacterEncoding("UTF-8");  // <-- Corrige encoding dos parâmetros POST
-   
-		HttpSession sessao = request.getSession();
-	    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
-	    
-	    if (usuarioLogado != null) {
-	    	boolean nomeJaExiste = false;
-			String nome = request.getParameter("nome");
-			String autor = request.getParameter("autor");
-			
-			for (Receita u : receita_dao.mostrarTodos()) {
-                if (u.getNome().equalsIgnoreCase(nome)) { 
-                	nomeJaExiste = true;
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
+        HttpSession sessao = request.getSession();
+        Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+
+        if (usuarioLogado != null) {
+            boolean nomeJaExiste = false;
+            String nome = request.getParameter("nome");
+
+            for (Receita r : receita_dao.mostrarTodos()) {
+                if (r.getNome().equalsIgnoreCase(nome)) {
+                    nomeJaExiste = true;
                     break;
                 }
             }
-			
-			if (nomeJaExiste) {
+
+            if (nomeJaExiste) {
                 request.setAttribute("msgErro", "Já existe uma receita com esse nome. Escolha outro nome.");
                 request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
-                return; 
+                return;
             }
 
-			
-			String modoPreparo = request.getParameter("modoPreparo");
-			int tempoDePreparoMinutos = Integer.parseInt(request.getParameter("tempoDePreparoMinutos"));
-			int qtddPorcoes = Integer.parseInt(request.getParameter("qtddPorcoes"));
-	
-			String[] ingredientesArray = request.getParameterValues("ingredientes");
-			ArrayList<String> ingredientes = new ArrayList<>();
-			if (ingredientesArray != null) {
-			    for (String ingrediente : ingredientesArray) {
-			        ingredientes.add(ingrediente);
-			    }
-			}
-	
-			String[] categoriasArray = request.getParameterValues("categorias");
-			ArrayList<String> categorias = new ArrayList<>();
-			if (categoriasArray != null) {
-			    for (String categoria : categoriasArray) {
-			        categorias.add(categoria);
-			    }
-			}
-	
-			Part filePart = request.getPart("img");
-			String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-			String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
-			File uploadDir = new File(uploadPath);
-			if(!uploadDir.exists()) uploadDir.mkdir();
-			filePart.write(uploadPath + File.separator + fileName); 
-			
-			
-			Receita r = new Receita(0, nome, usuarioLogado.getNome(), tempoDePreparoMinutos, ingredientes, modoPreparo, categorias, qtddPorcoes, fileName);
-	
-			receita_dao.add(r);
-			usuarioLogado.getMinhasReceitas().add(r);
-			
-			sessao.setAttribute("usuarioLogado", usuarioLogado);
-			request.setAttribute("receitas", receita_dao.mostrarTodos());
-			
-			getServletContext().getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
-	    } else {
-            request.setAttribute("msgErro", "para poder add receitas tem q estar logado");
+            String modoPreparo = request.getParameter("modoPreparo");
+
+            long tempoDePreparoMinutos;
+            long qtddPorcoes;
+
+            try {
+                tempoDePreparoMinutos = Long.parseLong(request.getParameter("tempoDePreparoMinutos"));
+                qtddPorcoes = Long.parseLong(request.getParameter("qtddPorcoes"));
+
+                // Validação simples para evitar números absurdos
+                if (tempoDePreparoMinutos <= 0 || tempoDePreparoMinutos > 10000 ||
+                    qtddPorcoes <= 0 || qtddPorcoes > 10000) {
+                    throw new NumberFormatException("Valores fora do intervalo permitido.");
+                }
+            } catch (NumberFormatException e) {
+                request.setAttribute("msgErro", "Tempo de preparo ou quantidade de porções inválidos.");
+                request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+                return;
+            }
+
+            // Ingredientes fixos
+            String[] ingredientesFixos = request.getParameterValues("ingredientes");
+
+            // Ingredientes personalizados digitados (dinâmicos)
+            String[] ingredientesPersonalizados = request.getParameterValues("ingredientesPersonalizados");
+
+            ArrayList<String> ingredientes = new ArrayList<>();
+
+            if (ingredientesFixos != null) {
+                ingredientes.addAll(Arrays.asList(ingredientesFixos));
+            }
+
+            if (ingredientesPersonalizados != null) {
+                for (String ing : ingredientesPersonalizados) {
+                    if (ing != null && !ing.trim().isEmpty()) {
+                        ingredientes.add(ing.trim());
+                    }
+                }
+            }
+
+            // Categorias
+            String[] categoriasArray = request.getParameterValues("categorias");
+            ArrayList<String> categorias = new ArrayList<>();
+            if (categoriasArray != null) {
+                categorias.addAll(Arrays.asList(categoriasArray));
+            }
+
+            // Upload da imagem
+            Part filePart = request.getPart("img");
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            filePart.write(uploadPath + File.separator + fileName);
+
+            // Criar nova receita com longs para tempo e porções
+            Receita novaReceita = new Receita(
+                0, nome, usuarioLogado.getNome(), tempoDePreparoMinutos,
+                ingredientes, modoPreparo, categorias, qtddPorcoes, fileName
+            );
+
+            // Salva e atualiza sessão
+            receita_dao.add(novaReceita);
+            usuarioLogado.getMinhasReceitas().add(novaReceita);
+            sessao.setAttribute("usuarioLogado", usuarioLogado);
+            request.setAttribute("receitas", receita_dao.mostrarTodos());
+
+            getServletContext().getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+        } else {
+            request.setAttribute("msgErro", "Para adicionar receitas, é necessário estar logado.");
             request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
-
-	    }
-	}
-
+        }
+    }
 }
