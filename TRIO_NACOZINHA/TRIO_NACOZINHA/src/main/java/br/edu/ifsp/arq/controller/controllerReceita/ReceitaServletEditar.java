@@ -70,7 +70,7 @@ public class ReceitaServletEditar extends HttpServlet {
             // Autor (só leitura)
             out.println("<div class='mb-3'>");
             out.println("<label class='form-label'>Autor:</label>");
-            out.println("<input type='text' class='form-control' value='" + receita.getAutor() + "' readonly>");
+            out.println("<input type='text' class='form-control' name='autor' value='" + receita.getAutor() + "' readonly>");
             out.println("</div>");
 
             // Modo de preparo

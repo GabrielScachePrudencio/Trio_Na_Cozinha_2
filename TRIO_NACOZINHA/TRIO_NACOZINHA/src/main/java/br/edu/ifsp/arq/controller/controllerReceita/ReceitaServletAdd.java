@@ -26,7 +26,8 @@ public class ReceitaServletAdd extends HttpServlet {
         receita_dao = ReceitaDAO.getInstance_R();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
         HttpSession sessao = request.getSession();
@@ -51,14 +52,14 @@ public class ReceitaServletAdd extends HttpServlet {
 
             String modoPreparo = request.getParameter("modoPreparo");
 
-            long tempoDePreparoMinutos;
-            long qtddPorcoes;
+            int tempoDePreparoMinutos;
+            int qtddPorcoes;
 
             try {
-                tempoDePreparoMinutos = Long.parseLong(request.getParameter("tempoDePreparoMinutos"));
-                qtddPorcoes = Long.parseLong(request.getParameter("qtddPorcoes"));
+                tempoDePreparoMinutos = Integer.parseInt(request.getParameter("tempoDePreparoMinutos"));
+                qtddPorcoes = Integer.parseInt(request.getParameter("qtddPorcoes"));
 
-                // Validação simples para evitar números absurdos
+          
                 if (tempoDePreparoMinutos <= 0 || tempoDePreparoMinutos > 10000 ||
                     qtddPorcoes <= 0 || qtddPorcoes > 10000) {
                     throw new NumberFormatException("Valores fora do intervalo permitido.");
@@ -69,10 +70,9 @@ public class ReceitaServletAdd extends HttpServlet {
                 return;
             }
 
-            // Ingredientes fixos
             String[] ingredientesFixos = request.getParameterValues("ingredientes");
 
-            // Ingredientes personalizados digitados (dinâmicos)
+            // Ingredientes personalizados digitados
             String[] ingredientesPersonalizados = request.getParameterValues("ingredientesPersonalizados");
 
             ArrayList<String> ingredientes = new ArrayList<>();
@@ -89,14 +89,12 @@ public class ReceitaServletAdd extends HttpServlet {
                 }
             }
 
-            // Categorias
             String[] categoriasArray = request.getParameterValues("categorias");
             ArrayList<String> categorias = new ArrayList<>();
             if (categoriasArray != null) {
                 categorias.addAll(Arrays.asList(categoriasArray));
             }
 
-            // Upload da imagem
             Part filePart = request.getPart("img");
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             String uploadPath = getServletContext().getRealPath("") + File.separator + "imagens";
@@ -104,14 +102,23 @@ public class ReceitaServletAdd extends HttpServlet {
             if (!uploadDir.exists()) uploadDir.mkdir();
             filePart.write(uploadPath + File.separator + fileName);
 
-            // Criar nova receita com longs para tempo e porções
+            // Criar nova receita
             Receita novaReceita = new Receita(
-                0, nome, usuarioLogado.getNome(), tempoDePreparoMinutos,
-                ingredientes, modoPreparo, categorias, qtddPorcoes, fileName
+                0, 
+                nome,
+                usuarioLogado.getNome(),
+                tempoDePreparoMinutos,
+                ingredientes,
+                modoPreparo,
+                categorias,
+                qtddPorcoes,
+                fileName 
             );
 
-            // Salva e atualiza sessão
+            
             receita_dao.add(novaReceita);
+
+           
             usuarioLogado.getMinhasReceitas().add(novaReceita);
             sessao.setAttribute("usuarioLogado", usuarioLogado);
             request.setAttribute("receitas", receita_dao.mostrarTodos());

@@ -77,6 +77,15 @@
             margin-left: 4rem;
         }
     }
+    
+    .imgPerfil{
+		border-radius: 50%;
+		width: 48px;
+		height: 48px;
+		object-fit: cover;
+		display: block;
+	}
+    
 </style>
 </head>
 
@@ -97,8 +106,11 @@
             <button class="btn btn-bege" type="submit">Pesquisar</button>
           </form>
           <a href="views/receita/AddReceita.jsp" class="btn btn-bege">Adicionar Receita</a>
-          <span class="text-bege">${sessionScope.usuarioLogado.nome}</span>
-          <a href="views/usuario/Conta.jsp" class="btn btn-outline-bege">Conta</a>
+          <a href="views/usuario/Conta.jsp" class="btn btn-outline-bege">
+          
+			<img src="<%= request.getContextPath() %>/imagens/${sessionScope.usuarioLogado.img}" alt="Foto de ${ sessionScope.usuarioLogado.img}" class="imgPerfil">
+          	<span class="text-bege">${sessionScope.usuarioLogado.nome}</span>
+          </a>
         </c:when>
         <c:otherwise>
           <form class="d-flex" role="search" action="${ctx}/ReceitaServletDetalhada" method="POST">

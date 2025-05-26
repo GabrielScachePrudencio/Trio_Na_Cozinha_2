@@ -95,7 +95,6 @@ public class ReceitaServletSalvar extends HttpServlet {
 	            return; 
 	        }
 			
-			
 			Receita r = new Receita(0, nome, autor, tempoDePreparoMinutos, ingredientes, modoPreparo, categorias, qtddPorcoes, fileName);
 			
 			receitaDao.editar(id2, r);

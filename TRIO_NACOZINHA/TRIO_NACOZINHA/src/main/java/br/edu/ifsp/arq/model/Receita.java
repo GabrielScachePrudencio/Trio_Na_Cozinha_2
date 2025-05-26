@@ -6,15 +6,15 @@ public class Receita {
     private int id;
     private String nome;
     private String autor;
-    private long tempoDePreparoMinutos;
+    private int tempoDePreparoMinutos;
     private ArrayList<String> ingredientes;
     private String modoPreparo;
     private ArrayList<String> categorias;
-    private long qtddPorcoes;
+    private int qtddPorcoes;
 
     private String img;
 
-    public Receita(int id, String nome, String autor, long tempoDePreparoMinutos, ArrayList<String> ingredientes, String modoPreparo, ArrayList<String> categorias, long qtddPorcoes, String img) {
+    public Receita(int id, String nome, String autor, int tempoDePreparoMinutos, ArrayList<String> ingredientes, String modoPreparo, ArrayList<String> categorias, int qtddPorcoes, String img) {
         setId(id);
         setNome(nome);
         setAutor(autor);
@@ -50,11 +50,11 @@ public class Receita {
         this.autor = autor;
     }
 
-    public long getTempoDePreparoMinutos() {
+    public int getTempoDePreparoMinutos() {
         return tempoDePreparoMinutos;
     }
 
-    public void setTempoDePreparoMinutos(long tempoDePreparoMinutos) {
+    public void setTempoDePreparoMinutos(int tempoDePreparoMinutos) {
         this.tempoDePreparoMinutos = tempoDePreparoMinutos;
     }
 
@@ -82,11 +82,11 @@ public class Receita {
         this.categorias = categorias;
     }
 
-    public long getQtddPorcoes() {
+    public int getQtddPorcoes() {
         return qtddPorcoes;
     }
 
-    public void setQtddPorcoes(long qtddPorcoes) {
+    public void setQtddPorcoes(int qtddPorcoes) {
         this.qtddPorcoes = qtddPorcoes;
     }
 
