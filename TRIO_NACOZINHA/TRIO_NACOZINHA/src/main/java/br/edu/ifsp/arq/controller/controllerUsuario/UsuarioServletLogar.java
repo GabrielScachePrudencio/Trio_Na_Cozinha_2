@@ -1,25 +1,18 @@
 package br.edu.ifsp.arq.controller.controllerUsuario;
 
-import java.io.File;
-
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import br.edu.ifsp.arq.dao.UsuarioDAO;
-import br.edu.ifsp.arq.dao.ReceitaDAO;
 import br.edu.ifsp.arq.model.Usuario;
 
-/**
- * Servlet implementation class UsuarioServletLogar
- */
 @WebServlet("/UsuarioServletLogar")
 public class UsuarioServletLogar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,39 +23,62 @@ public class UsuarioServletLogar extends HttpServlet {
 		usuario_dao = UsuarioDAO.getInstance_U();
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String nome = request.getParameter("nome");
-		String senha = request.getParameter("senha");
-		HttpSession sessao = request.getSession();
-		Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-		System.out.println("NOME = " + nome);
-		System.out.println("SENHA = " + senha);
+		// Define encoding para evitar problemas com acentos
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
 
-		if (usuarioLogado == null) {
-			if (nome != null && senha != null) {
-				for (Usuario u : usuario_dao.mostrarTodos()) {
-					if (u.getNome().equals(nome) && u.getSenha().equals(senha)) {
-						sessao.setAttribute("usuarioLogado", u);
+		// Lê o corpo da requisição (JSON)
+		StringBuilder jsonBuffer = new StringBuilder();
+		try (BufferedReader reader = request.getReader()) {
+			String linha;
+			while ((linha = reader.readLine()) != null) {
+				jsonBuffer.append(linha);
+			}
+		}
 
-						request.setAttribute("usuarios", usuario_dao.mostrarTodos());
-						request.setAttribute("receitas", ReceitaDAO.getInstance_R().mostrarTodos());
+		Gson gson = new Gson();
+		Usuario inputUsuario;
 
-						request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
-						return;
-					}
+		try {
+			// Converte JSON recebido para objeto Java
+			inputUsuario = gson.fromJson(jsonBuffer.toString(), Usuario.class);
+		} catch (JsonSyntaxException e) {
+			sendErro(response, "JSON malformado");
+			return;
+		}
+
+		String nome = inputUsuario.getNome();
+		String senha = inputUsuario.getSenha();
+
+
+
+		// Valida nome e senha
+		if (nome != null && senha != null) {
+			for (Usuario u : usuario_dao.mostrarTodos()) {
+				if (u.getNome().equals(nome) && u.getSenha().equals(senha)) {
+					// Salva na sessão
+					HttpSession sessao = request.getSession();
+					sessao.setAttribute("usuarioLogado", u);
+
+					// Responde com o JSON do usuário logado
+					String jsonResposta = gson.toJson(u);
+					response.getWriter().write(jsonResposta);
+					return;
 				}
 			}
-			
-			request.setAttribute("msgErro", "Usuário ou senha inválidos");
-			request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
-			
-		} else {
-			request.setAttribute("msgErro", "Você já está logado");
-			request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
 		}
+
+		// Se não achou nenhum usuário válido
+		sendErro(response, "Usuário ou senha inválidos");
+	}
+
+	private void sendErro(HttpServletResponse response, String mensagem) throws IOException {
+		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		response.setContentType("application/json");
+		response.getWriter().write("{\"erro\": \"" + mensagem + "\"}");
 	}
 }
-
-

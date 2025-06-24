@@ -1,14 +1,24 @@
 package br.edu.ifsp.arq.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Usuario {
+public class Usuario implements Serializable{
 	private int id;
 	private String nome;
 	private String senha;
 	private String img;
 	private ArrayList<Receita> minhasReceitas;
+	private static int proximo_id = 0;
+
+    private static final long serialVersionUID = 1L;
+
 	
+	public Usuario() {
+		this.id = ++proximo_id;
+	}
+
+
 	public Usuario(int id, String nome, String senha, String img, ArrayList<Receita> minhasReceitas) {
 		setId(id);
 		setNome(nome);
@@ -17,6 +27,13 @@ public class Usuario {
 		setMinhasReceitas(minhasReceitas);
 	}
 	
+	public Usuario(String nome, String senha, String img, ArrayList<Receita> minhasReceitas) {
+		this();
+		setNome(nome);
+		setSenha(senha);
+		setImg(img);
+		setMinhasReceitas(minhasReceitas);
+	}
 	
 	public int getId() {
 		return id;
@@ -60,7 +77,12 @@ public class Usuario {
 		this.minhasReceitas = minhasReceitas;
 	}
 
-
+	public static void atualizarProximoId(int id) {
+        if (id > proximo_id) {
+            proximo_id = id;
+        }
+    }
+    
 	@Override
 	public String toString() {
 	    return "Usuário {" +

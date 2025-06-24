@@ -1,22 +1,8 @@
-<%@page import="br.edu.ifsp.arq.model.*"%>
-<%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<%
-    HttpSession sessao = request.getSession();
-    Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
-    String imgUsuario = (usuarioLogado.getImg() != null && !usuarioLogado.getImg().isEmpty()) ? usuarioLogado.getImg() : "padrao-perfil.png";
-%>
-
-<c:set var="ctx" value="${pageContext.request.contextPath}" />
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Conta - <%= usuarioLogado.getNome() %></title>
+    <title>Conta</title>
     <link rel="icon" href="${ctx}/imagens/logo/iconsite.png" type="image/png">
 
 <style>
@@ -170,14 +156,13 @@
 </head>
 
 <body>
-    <div class="conta">
+<div class="conta">
         <img src="<%= request.getContextPath() %>/imagens/<%= imgUsuario %>" alt="Foto de <%= usuarioLogado.getNome() %>">
 
         <h1>Olá, <%= usuarioLogado.getNome() %>!</h1>
 
         <h2>Suas Receitas</h2>
 
-        <c:forEach var="receita" items="${usuarioLogado.minhasReceitas}">
             <div class="receita-card" onclick="irParaReceitaMaisDetalhada2(${receita.id})" role="button" tabindex="0" onkeypress="if(event.key === 'Enter') irParaReceitaMaisDetalhada2(${receita.id})">
                 <img alt="Imagem da Receita" src="${pageContext.request.contextPath}/imagens/${receita.img}">
                 
@@ -189,29 +174,25 @@
                 
                 <p><strong>Ingredientes:</strong></p>
                 <ul>
-                    <c:forEach var="ingrediente" items="${receita.ingredientes}">
-                        <li>${ingrediente}</li>
-                    </c:forEach>
+                    
                 </ul>
                 
                 <p><strong>Modo de Preparo:</strong> ${receita.modoPreparo}</p>
                 
                 <p><strong>Categorias:</strong></p>
                 <ul>
-                    <c:forEach var="categoria" items="${receita.categorias}">
-                        <li>${categoria}</li>
-                    </c:forEach>
+
                 </ul>
                 
                 <a href="<%= request.getContextPath() %>/ReceitaServletEditar?id=${receita.id}">Editar Receita</a>
                 <a href="<%= request.getContextPath() %>/ReceitaServletDeletar?id=${receita.id}">Deletar Receita</a>
             </div>
-        </c:forEach>
+        
 
         <div class="links-conta">
             <a href="<%= request.getContextPath() %>/UsuarioServletEditar?id=<%= usuarioLogado.getId() %>">Editar Usuário</a>
             <a href="<%= request.getContextPath() %>/UsuarioServletDeconectar?id=<%= usuarioLogado.getId() %>">Desconectar</a>
-            <!-- Remova o botão Deletar conta se quiser -->
+           
             <a href="<%= request.getContextPath() %>/UsuarioServletDeletar?id=<%= usuarioLogado.getId() %>">Deletar Conta</a>
             <a href="<%= request.getContextPath() %>/ServletRenovaPrincipal">Voltar à Página Principal</a>
         </div>

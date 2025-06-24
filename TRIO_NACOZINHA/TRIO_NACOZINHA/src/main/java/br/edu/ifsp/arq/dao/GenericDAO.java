@@ -8,4 +8,7 @@ public interface GenericDAO<T> {
 	boolean editar(int id, T obj);
 	ArrayList<T> mostrarTodos();
 	T buscarPorID(int id);
+	ArrayList<T> getDadosArq();
+	boolean setDadosArq(ArrayList<T> lista);
+	
 }

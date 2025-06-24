@@ -1,6 +1,7 @@
 package br.edu.ifsp.arq.controller.controllerReceita;
 
 import java.io.IOException;
+import com.google.gson.Gson;
 import java.util.Iterator;
 
 import javax.servlet.ServletException;
@@ -31,29 +32,34 @@ public class ReceitaServletDetalhada extends HttpServlet {
             for (Receita r : receitaDao.mostrarTodos()) {
                 if (r.getNome().toLowerCase().contains(busca.toLowerCase())) {
                     request.setAttribute("receitaDetalhada", r);
-                    request.getRequestDispatcher("views/receita/ReceitaEspecifica.jsp").forward(request, response);
+                    request.getRequestDispatcher("assets/views/receita/ReceitaEspecifica.html").forward(request, response);
                     return; 
                 }
             }
             request.setAttribute("msgErro", "Nenhuma receita encontrada com esse nome.");
-            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
         } else {
             request.setAttribute("msgErro", "Campo de busca vazio.");
-            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
         }
     }
 
 
     
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
-		String id = request.getParameter("id");
-		int id2 = Integer.parseInt(id);
-		Receita r = receitaDao.buscarPorID(id2);
-		
-		request.setAttribute("receitaDetalhada", r);
-		request.getRequestDispatcher("views/receita/ReceitaEspecifica.jsp").forward(request, response);
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        int id2 = Integer.parseInt(id);
+        Receita receita = receitaDao.buscarPorID(id2);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        Gson gson = new Gson();
+        String json = gson.toJson(receita);
+
+        response.getWriter().write(json);
+    }
+
 
 	
 

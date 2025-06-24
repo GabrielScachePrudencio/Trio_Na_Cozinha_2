@@ -1,8 +1,9 @@
 package br.edu.ifsp.arq.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Receita {
+public class Receita implements Serializable {
     private int id;
     private String nome;
     private String autor;
@@ -11,9 +12,14 @@ public class Receita {
     private String modoPreparo;
     private ArrayList<String> categorias;
     private int qtddPorcoes;
-
+    private static final long serialVersionUID = 1L;
     private String img;
-
+	private static int proximo_id = 0;
+	
+	public Receita() {
+		this.id = ++proximo_id;
+	}
+	
     public Receita(int id, String nome, String autor, int tempoDePreparoMinutos, ArrayList<String> ingredientes, String modoPreparo, ArrayList<String> categorias, int qtddPorcoes, String img) {
         setId(id);
         setNome(nome);
@@ -26,6 +32,19 @@ public class Receita {
         setImg(img);
     }
 
+    public Receita(String nome, String autor, int tempoDePreparoMinutos, ArrayList<String> ingredientes, String modoPreparo, ArrayList<String> categorias, int qtddPorcoes, String img) {
+        this();
+        setNome(nome);
+        setAutor(autor);
+        setTempoDePreparoMinutos(tempoDePreparoMinutos);
+        setIngredientes(ingredientes);
+        setModoPreparo(modoPreparo);
+        setCategorias(categorias);
+        setQtddPorcoes(qtddPorcoes);
+        setImg(img);
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -98,6 +117,12 @@ public class Receita {
         this.img = img;
     }
 
+    public static void atualizarProximoId(int id) {
+        if (id > proximo_id) {
+            proximo_id = id;
+        }
+    }
+    
     @Override
     public String toString() {
         return "Receita {" +

@@ -33,7 +33,14 @@ public class ReceitaServletDeletar extends HttpServlet {
 		if(usuarioLogado != null) {
 			String id = request.getParameter("id");
 			int id2 = Integer.parseInt(id);
-			receitaDao.deletar(id2);
+			
+			for(int i = 0; i < receitaDao.mostrarTodos().size(); i++) {
+				if(receitaDao.mostrarTodos().get(i).getId() == id2) {
+					receitaDao.deletar(i);
+				}
+			}
+			
+			
 			
 
 			for (int i = 0; i < usuarioLogado.getMinhasReceitas().size(); i++) {
