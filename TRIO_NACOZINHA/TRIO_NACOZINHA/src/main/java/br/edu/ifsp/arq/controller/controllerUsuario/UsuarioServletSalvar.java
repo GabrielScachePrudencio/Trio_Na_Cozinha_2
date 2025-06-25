@@ -63,7 +63,7 @@ public class UsuarioServletSalvar extends HttpServlet {
 	        
 	        if (nomeJaExiste) {
 	            request.setAttribute("msgErro", "Já existe um usuário com esse nome. Escolha outro nome.");
-	            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+	            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
 	            return; 
 	        }
 	        
@@ -89,15 +89,16 @@ public class UsuarioServletSalvar extends HttpServlet {
 	        	
 	        
 	        request.setAttribute("usuarios", usuarioDao.mostrarTodos());
-	        request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+	        response.sendRedirect(request.getContextPath() + "/index.html");
+	        return; // ← IMPORTANTE: interrompe o fluxo aqui
         } 
         request.setAttribute("msgErro", "precisa estar logado para poder salvar");
-	    request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+	    request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
 
     	} catch (Exception e) {
             e.printStackTrace(); // Mostra no console do servidor
             request.setAttribute("msgErro", "Erro interno ao salvar o usuário.");
-            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
         }
     }
 

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 
 @WebServlet("/UsuarioServletDeconectar")
 public class UsuarioServletDeconectar extends HttpServlet {
@@ -16,9 +18,13 @@ public class UsuarioServletDeconectar extends HttpServlet {
   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sessao = request.getSession(false);
-        sessao.setAttribute("usuarioLogado", null);
-        request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
-
+		if (sessao != null) {
+			sessao.setAttribute("usuarioLogado", null);
+			sessao.invalidate(); 
+		}
+		
+		// Redireciona para a página inicial
+		response.sendRedirect(request.getContextPath() + "/index.html");
 	}	
 
 	

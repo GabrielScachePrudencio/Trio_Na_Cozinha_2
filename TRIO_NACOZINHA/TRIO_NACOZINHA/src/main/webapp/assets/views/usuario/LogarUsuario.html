@@ -128,7 +128,8 @@ function logar(event) {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({ nome, senha })
+		body: JSON.stringify({ nome, senha }),
+		credentials: "include"
 	})
 	.then(async (response) => {
 		const contentType = response.headers.get("content-type");

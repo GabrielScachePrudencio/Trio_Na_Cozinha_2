@@ -20,29 +20,34 @@ import br.edu.ifsp.arq.model.*;
 import br.edu.ifsp.arq.dao.*;
 
 @WebServlet("/ServletInicial")
-//@MultipartConfig
 @MultipartConfig
 public class ServletInicial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ReceitaDAO receita_dao;
 	private UsuarioDAO usuario_dao;
-	private static int soUmaVez = 0;
-	
+
     public ServletInicial() {
-        super(); 
+        super();
         receita_dao = ReceitaDAO.getInstance_R();
         usuario_dao = UsuarioDAO.getInstance_U();
     }
 
-	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
-    	HttpSession sessao = request.getSession();
-    	sessao.setAttribute("usuarioLogado", null);
+        // Pega a sessão, mas não cria uma nova se não existir
+        HttpSession sessao = request.getSession(false);
 
-    	request.setAttribute("receitas", receita_dao.mostrarTodos());
-    	request.setAttribute("usuarios", usuario_dao.mostrarTodos());
+        if (sessao == null || sessao.getAttribute("usuarioLogado") == null) {
+            // Usuário não está logado, redireciona para login
+            response.sendRedirect(request.getContextPath() + "/index.html");
+            return;
+        }
 
-    	getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+        // Usuário logado - busca os dados para a página inicial
+        request.setAttribute("receitas", receita_dao.mostrarTodos());
+        request.setAttribute("usuarios", usuario_dao.mostrarTodos());
+
+        // Encaminha para a página JSP que irá mostrar os dados (index.jsp)
+        getServletContext().getRequestDispatcher("/index.html").forward(request, response);
     }
 }
+

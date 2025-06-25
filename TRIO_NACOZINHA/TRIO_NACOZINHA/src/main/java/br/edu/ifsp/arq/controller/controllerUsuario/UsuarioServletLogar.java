@@ -26,12 +26,10 @@ public class UsuarioServletLogar extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Define encoding para evitar problemas com acentos
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 
-		// Lê o corpo da requisição (JSON)
 		StringBuilder jsonBuffer = new StringBuilder();
 		try (BufferedReader reader = request.getReader()) {
 			String linha;
@@ -44,7 +42,7 @@ public class UsuarioServletLogar extends HttpServlet {
 		Usuario inputUsuario;
 
 		try {
-			// Converte JSON recebido para objeto Java
+
 			inputUsuario = gson.fromJson(jsonBuffer.toString(), Usuario.class);
 		} catch (JsonSyntaxException e) {
 			sendErro(response, "JSON malformado");
@@ -56,15 +54,14 @@ public class UsuarioServletLogar extends HttpServlet {
 
 
 
-		// Valida nome e senha
+
 		if (nome != null && senha != null) {
 			for (Usuario u : usuario_dao.mostrarTodos()) {
 				if (u.getNome().equals(nome) && u.getSenha().equals(senha)) {
-					// Salva na sessão
+
 					HttpSession sessao = request.getSession();
 					sessao.setAttribute("usuarioLogado", u);
 
-					// Responde com o JSON do usuário logado
 					String jsonResposta = gson.toJson(u);
 					response.getWriter().write(jsonResposta);
 					return;
@@ -72,10 +69,26 @@ public class UsuarioServletLogar extends HttpServlet {
 			}
 		}
 
-		// Se não achou nenhum usuário válido
+
 		sendErro(response, "Usuário ou senha inválidos");
 	}
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    HttpSession sessao = request.getSession(false);
+	    if (sessao != null) {
+	        Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+	        if (usuarioLogado != null) {
+	            response.setContentType("application/json");
+	            response.getWriter().write(new Gson().toJson(usuarioLogado));
+	            return;
+	        }
+	    }
+	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	    response.setContentType("application/json");
+	    response.getWriter().write("{\"erro\":\"Usuário não logado\"}");
+	}
+
+	
 	private void sendErro(HttpServletResponse response, String mensagem) throws IOException {
 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		response.setContentType("application/json");

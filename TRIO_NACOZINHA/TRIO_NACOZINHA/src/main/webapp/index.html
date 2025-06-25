@@ -1,15 +1,27 @@
 <!-- 
 
-GABRIEL {
-    - fazer com que o editar seja um html normal
+ordem{
+- arrumar o deletar conta acho q é so arrumar para index.html e colocar o send la 
 
-    - trocar todas as paginas jsp para html
+- fazer com que caso nao tenha receitas colocar uma mensagem tipo nao tem receitas ainda
 
-    - todos os acessos a servlets serao feitas por meio de fetch pelo js
+- fazer com que as receitas criadas vao para a conta logada
 
-    - descobrir como manter a logicas dos jsp no html e js do menu
+- fazer com que a pesquisa funcione
 
-    - fazer as requisiçoẽs usando json igual do projeto do professor
+- criar o atributo tipoDeUsuario na classe de usuario e instancialo corretamente
+
+- criar antes do sistema rodar de fato  o adm que é o (123) o avaliador e sempre fazer com que os usaurioa normais sejam normais apenas 
+o avaliador e adm sao diferentes 
+
+- tirar os botoes de editar ou deltar receitas e o do usuario na conta
+
+- colocar uma logica que so apareça quando o usaurio for o adm, e colocar dois botoes q vao levar para dois html diferentes tipo todos os usuarios e todas as receitas e por la sera feita o crud que somente
+o adm podera fazer 
+
+- fazer com que os erros sejam exibidos com um alert e parar de usar Erro.html
+
+- arrumar imgs
 }
 
  -->
@@ -114,7 +126,11 @@ GABRIEL {
     color: black;
     border: none;
   }
-
+#containerTodasReceitasDoUsuarioLogado {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
   .card.card-bege:hover {
     transform: scale(1.05);
     box-shadow: 0 10px 25px rgb(211 115 44 / 0.7);
@@ -170,39 +186,19 @@ GABRIEL {
 
 <body>
 
-<nav class="navbar navbar-expand-lg bg-marrom text-bege px-4 py-3">
-  <div class="container-fluid justify-content-between">
-    <a class="navbar-brand" href="#">
-      <img src="assets/imagens/logo/logo_pageindex.png" alt="Trio Na Cozinha" height="40">
-    </a>
-    
-    <div class="d-flex align-items-center gap-3">
-
-      <a href="assets/views/extras/SobreNos.html" class="btn btn-outline-bege">Sobre nós</a>
-
-
-      <form class="d-flex" role="search" action="ReceitaServletDetalhada" method="POST">
-        <input class="form-control me-2" type="search" name="busca" placeholder="Pesquisar">
-        <button class="btn btn-bege" type="submit">Pesquisar</button>
-      </form>
-      
-      <a href="assets/views/receita/AddReceita.html" class="btn btn-bege">Adicionar Receita</a>
-
-      <a href="assets/views/usuario/Conta.html" class="btn btn-outline-bege d-flex align-items-center" style="gap: 10px;">
-        <img src="assets/imagens/exemplo_usuario.html" alt="Foto do Usuário" class="imgPerfil" style="width: 32px; height: 32px; border-radius: 50%;">
-        <span class="text-bege">Gabriel Scache</span>
-      </a>
-
-      <a href="assets/views/usuario/AddUsuario.html" class="btn btn-outline-bege">Cadastrar-se</a>
-      <a href="assets/views/usuario/LogarUsuario.html" class="btn btn-outline-bege">Logar</a>
-    </div>
-  </div>
+<nav  class="navbar navbar-expand-lg bg-marrom text-bege px-4 py-3">
+ 	<div class="container-fluid justify-content-between" id=menuJS>
+ 	
+ 	</div>
 </nav>
 
 
 
-<div class="container my-5" style="background-color: #fff4e6; padding: 20px; border-radius: 12px;">
-  <h2 class="mb-4" style="color: #d35400; font-weight: 700;">Suas receitas</h2>
+
+
+<div id="containerTodasReceitasDoUsuarioLogado" class="containerTodasReceitas my-5" style="background-color: #fff4e6; padding: 20px; border-radius: 12px;">
+  <h2 class="mb-4" style="text-align: center; color: #d35400; font-weight: 700;">Suas receitas</h2>
+  
     
 </div>
 
@@ -251,9 +247,16 @@ GABRIEL {
 
 
 	<script>
-	  window.onload = () => {
-	    carregarTodas();
-	  };
+		window.onload = async () => {
+		  await verificarLogin(); 
+		  carregarMenu();        
+
+		  if (usuarioLogado) {
+		    carregarTodasReceitasDoUsuario(); 
+		  }
+
+		  carregarTodas(); 
+		};
 	  
 	</script>
 	

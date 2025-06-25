@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import com.google.gson.Gson;
 
 import br.edu.ifsp.arq.dao.ReceitaDAO;
 import br.edu.ifsp.arq.dao.UsuarioDAO;
@@ -35,7 +38,11 @@ public class UsuarioServletAdd extends HttpServlet {
         String nome = request.getParameter("nome");
         String senha = request.getParameter("senha");
         HttpSession sessao = request.getSession(false);
-        Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+        Usuario usuarioLogado = null;
+        if(sessao != null) {
+        	 usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
+
+        }
         
         if (usuarioLogado == null) {
             boolean nomeJaExiste = false;
@@ -47,9 +54,10 @@ public class UsuarioServletAdd extends HttpServlet {
             }
 
             if (nomeJaExiste) {
-                request.setAttribute("msgErro", "Já existe um usuário com esse nome. Escolha outro nome.");
-                request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
-                return; 
+            	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            	response.setContentType("application/json");
+            	response.getWriter().write("{\"erro\": \"Já existe um usuário com esse nome. Escolha outro.\"}");
+            	return;
             }
 
             Part filePart = request.getPart("img");
@@ -66,11 +74,20 @@ public class UsuarioServletAdd extends HttpServlet {
 
             request.setAttribute("usuarios", usuario_dao.mostrarTodos());
             request.setAttribute("receitas", ReceitaDAO.getInstance_R().mostrarTodos());
-	        request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+            
+            List<Usuario> lista = usuario_dao.mostrarTodos();
+            String json = new Gson().toJson(lista);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+
 
         } else {
-            request.setAttribute("msgErro", "Não pode adicionar outro usuário enquanto estiver logado");
-            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+        	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        	response.setContentType("application/json");
+        	response.getWriter().write("{\"erro\": \"Já existe um usuário com esse nome. Escolha outro.\"}");
+        	return;
         }
     }
 

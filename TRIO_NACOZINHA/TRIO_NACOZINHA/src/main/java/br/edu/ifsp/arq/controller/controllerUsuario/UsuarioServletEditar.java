@@ -34,7 +34,7 @@ public class UsuarioServletEditar extends HttpServlet {
 
         if (usuarioLogado == null) {
             request.setAttribute("msgErro", "Você precisa estar logado para poder editar.");
-            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
             return;
         }
 
@@ -44,14 +44,14 @@ public class UsuarioServletEditar extends HttpServlet {
             id2 = Integer.parseInt(id);
         } catch (NumberFormatException e) {
             request.setAttribute("msgErro", "ID inválido.");
-            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
             return;
         }
 
         Usuario u = usuarioDao.buscarPorID(id2);
         if (u == null) {
             request.setAttribute("msgErro", "Usuário não encontrado.");
-            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
             return;
         }
 
@@ -99,7 +99,7 @@ public class UsuarioServletEditar extends HttpServlet {
 
         out.println("      <button type='submit'>Salvar Alterações</button>");
         out.println("    </form>");
-        out.println("    <a href='" + request.getContextPath() + "/ServletRenovaPrincipal'>Voltar à página principal</a>");
+        out.println("    <a href='../../../index.html'>Voltar à página principal</a>");
         out.println("  </div>");
         out.println("</body>");
         out.println("</html>");
