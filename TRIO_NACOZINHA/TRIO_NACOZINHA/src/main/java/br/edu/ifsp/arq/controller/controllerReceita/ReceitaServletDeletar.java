@@ -1,70 +1,50 @@
 package br.edu.ifsp.arq.controller.controllerReceita;
 
 import java.io.IOException;
-
-
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
-import br.edu.ifsp.arq.dao.*;
-import br.edu.ifsp.arq.model.*;
-
+import br.edu.ifsp.arq.dao.ReceitaDAO;
+import br.edu.ifsp.arq.model.Usuario;
 
 @WebServlet("/ReceitaServletDeletar")
 public class ReceitaServletDeletar extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       	ReceitaDAO receitaDao;
-    
-    public ReceitaServletDeletar() { 
+    private static final long serialVersionUID = 1L;
+    private ReceitaDAO receitaDao;
+
+    public ReceitaServletDeletar() {
         super();
         receitaDao = ReceitaDAO.getInstance_R();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("ID recebido: " + request.getParameter("id"));
-		HttpSession sessao = request.getSession();
-		Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
-		
-		if(usuarioLogado != null) {
-			String id = request.getParameter("id");
-			int id2 = Integer.parseInt(id);
-			
-			for(int i = 0; i < receitaDao.mostrarTodos().size(); i++) {
-				if(receitaDao.mostrarTodos().get(i).getId() == id2) {
-					receitaDao.deletar(i);
-				}
-			}
-			
-			
-			
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idParam = request.getParameter("id");
+        HttpSession sessao = request.getSession(false); // melhor evitar criar sessão se não existir
+        Usuario usuarioLogado = (sessao != null) ? (Usuario) sessao.getAttribute("usuarioLogado") : null;
 
-			for (int i = 0; i < usuarioLogado.getMinhasReceitas().size(); i++) {
-			    if (usuarioLogado.getMinhasReceitas().get(i).getId() == id2) {
-			    	usuarioLogado.getMinhasReceitas().remove(i);
-			        break;
-			    }
-			}
-			
-			
-			request.setAttribute("receitas", receitaDao.mostrarTodos());
-			sessao.setAttribute("usuarioLogado", usuarioLogado);
-			
-			//caminho relativo a raiz da aplicação
-			getServletContext().getRequestDispatcher("/views/usuario/Conta.jsp").forward(request, response);
-			// caminho relativo ao caminho atual request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
-		} else {
-			request.setAttribute("msgErro", "precisa estar logado para poder deletar");
-		    request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
-		
-		}
+        if (usuarioLogado != null && idParam != null) {
+            try {
+                int idReceita = Integer.parseInt(idParam);
 
-	}
+                boolean removido = receitaDao.deletar(idReceita); // remover pelo ID
 
-	
+                if (removido) {
+                    usuarioLogado.getMinhasReceitas().removeIf(r -> r.getId() == idReceita);
+                    sessao.setAttribute("usuarioLogado", usuarioLogado);
 
+                    response.sendRedirect(request.getContextPath() + "/assets/views/usuario/Conta.html");
+                } else {
+                    request.setAttribute("msgErro", "Receita não encontrada.");
+                    request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
+                }
+            } catch (NumberFormatException e) {
+                request.setAttribute("msgErro", "ID da receita inválido.");
+                request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
+            }
+        } else {
+            request.setAttribute("msgErro", "Você precisa estar logado para deletar uma receita.");
+            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
+        }
+    }
 }

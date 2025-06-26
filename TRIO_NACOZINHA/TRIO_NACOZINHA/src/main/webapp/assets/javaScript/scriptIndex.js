@@ -6,10 +6,20 @@ function carregarTodasReceitasDoUsuario(){
   let containerPai = document.getElementById("containerTodasReceitasDoUsuarioLogado");
   containerPai.innerHTML = ""; 
   if(usuarioLogado){
+	if(usuarioLogado.minhasReceitas.length === 0){
+		let p = document.createElement("p");
+		p.innerHTML = "Nenhuma Receita Add";
+		containerPai.appendChild(p);
+		return;
+
+	}
+	
     usuarioLogado.minhasReceitas.forEach(d => {
       let card = criarCardReceita(d);
       containerPai.appendChild(card);
     });
+	
+	
   }
 }
 
@@ -24,6 +34,7 @@ function criarCardReceita(d) {
   card.innerHTML = `
     <img src="assets/imagens/${d.img || 'imagem-default.jpg'}" class="card-img-top" alt="${d.nome}">
     <div class="card-body">
+		<p><strong>ID:</strong> ${d.id}</p>
         <h5 class="card-title">${d.nome}</h5>
         <p><strong>Autor:</strong> ${d.autor}</p>
         <p><strong>Tempo:</strong> ${d.tempoDePreparoMinutos} min</p>
@@ -120,7 +131,7 @@ function carregarMenu() {
     contaLink.style.gap = '10px';
 
     const imgPerfil = document.createElement('img');
-    imgPerfil.src = usuarioLogado.fotoUrl || 'assets/imagens/exemplo_usuario.html';
+	imgPerfil.src = `${contextPath}/imagens/${usuarioLogado.img}`;
     imgPerfil.alt = 'Foto do Usuário';
     imgPerfil.className = 'imgPerfil';
     imgPerfil.style.width = '32px';

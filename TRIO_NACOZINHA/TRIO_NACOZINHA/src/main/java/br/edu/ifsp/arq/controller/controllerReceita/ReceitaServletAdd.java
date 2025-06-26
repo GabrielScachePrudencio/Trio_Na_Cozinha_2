@@ -30,7 +30,7 @@ public class ReceitaServletAdd extends HttpServlet {
     public ReceitaServletAdd() {
         super();
         receita_dao = ReceitaDAO.getInstance_R();
-        usuario_dao = usuario_dao.getInstance_U();
+        usuario_dao = UsuarioDAO.getInstance_U();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -111,11 +111,17 @@ public class ReceitaServletAdd extends HttpServlet {
         );
 
         receita_dao.add(novaReceita);
-
+        ArrayList<Receita> todas = receita_dao.mostrarTodos();
+        Receita receitaComId = todas.get(todas.size() - 1);
+        
+        
         ArrayList<Receita> minhas = usuarioLogado.getMinhasReceitas();
-        minhas.add(novaReceita);
+
+        minhas.add(receitaComId);
+
         usuario_dao.atualizarMinhasReceitas(usuarioLogado, minhas);
 
+        
         sessao.setAttribute("usuarioLogado", usuarioLogado);
 
         List<Receita> lista = receita_dao.mostrarTodos();

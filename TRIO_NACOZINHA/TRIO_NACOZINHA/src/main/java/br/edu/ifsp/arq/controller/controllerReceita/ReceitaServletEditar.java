@@ -38,7 +38,7 @@ public class ReceitaServletEditar extends HttpServlet {
         int id2 = Integer.parseInt(id);
         HttpSession sessao = request.getSession(false);
         Usuario usuarioLogado = (Usuario) sessao.getAttribute("usuarioLogado");
-
+        System.out.print("Editar Receita: " + id2);
         Receita receita = receitaDao.buscarPorID(id2);
 
         if (usuarioLogado != null) {
@@ -140,7 +140,7 @@ public class ReceitaServletEditar extends HttpServlet {
 
             // Botões
             out.println("<button type='submit' class='btn btn-primary me-2'>Salvar Alterações</button>");
-            out.println("<a href='" + request.getContextPath() + "/ServletRenovaPrincipal' class='btn btn-secondary'>Voltar à página principal</a>");
+            out.println("<a href='" + request.getContextPath() + "/assets/views/usuario/Conta.html'>Voltar conta</a>");
 
             out.println("</form>");
             out.println("</div>");
@@ -152,7 +152,7 @@ public class ReceitaServletEditar extends HttpServlet {
 
         } else {
             request.setAttribute("msgErro", "precisa estar logado para poder editar");
-            request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
+            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
         }
     }
 }

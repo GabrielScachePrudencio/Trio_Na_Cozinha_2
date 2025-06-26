@@ -160,11 +160,6 @@
        
 </div>
 
-<!-- 
-
-
-
- -->
 
     <script>
     const contextPath = "/TRIO_NACOZINHA"; // o seu caminho base
@@ -187,6 +182,7 @@
             usuarioLogado = usuario;
             carregarDados(usuarioLogado); 
         } catch (err) {
+        	alert(err.erro)
             console.warn("Usuário não autenticado!");
             usuarioLogado = null;
         }
@@ -223,7 +219,7 @@
             card.setAttribute("onkeypress", `if(event.key === 'Enter') irParaReceitaMaisDetalhada2(${receita.id})`);
 
             card.innerHTML = `
-                <img alt="Imagem da Receita" src="${contextPath}/imagens/${receita.img}">
+                <img alt="Imagem da Receita" src="${contextPath}/assets/imagens/${receita.img}" || "${contextPath}/imagens/${receita.img}">
                 <p><strong>ID:</strong> ${receita.id}</p>
                 <p><strong>Nome:</strong> ${receita.nome}</p>
                 <p><strong>Autor:</strong> ${receita.autor}</p>

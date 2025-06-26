@@ -47,12 +47,13 @@ public class UsuarioServletDeletar extends HttpServlet {
 		    
 
 		    request.setAttribute("usuarios", usuarioDao.mostrarTodos());
-		    request.getRequestDispatcher("/ServletRenovaPrincipal").forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/index.html");
 
 		} else {
-			request.setAttribute("msgErro", "precisa estar logado para poder deletar");
-		    request.getRequestDispatcher("/views/extras/Erro.jsp").forward(request, response);
-		}
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.setContentType("application/json");
+		    response.getWriter().write("{\"erro\":\"Usuário não logado\"}");
 
-	}
+		}
+		}
 }
