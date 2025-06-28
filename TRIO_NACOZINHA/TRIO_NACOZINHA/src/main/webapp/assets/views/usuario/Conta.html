@@ -165,7 +165,7 @@
     const contextPath = "/TRIO_NACOZINHA"; // o seu caminho base
 
     function irParaReceitaMaisDetalhada2(id) {
-        window.location.href = `${contextPath}/ReceitaServletDetalhada?id=${id}`;
+    	window.location.href = `/TRIO_NACOZINHA/assets/views/receita/ReceitaEspecifica.html?id=${id}`;
     }
 
 
@@ -230,10 +230,30 @@
                 <p><strong>Modo de Preparo:</strong> ${receita.modoPreparo}</p>
                 <p><strong>Categorias:</strong></p>
                 <ul>${receita.categorias.map(cat => `<li>${cat}</li>`).join("")}</ul>
+            `;
+			
+            
+            /*
+            card.innerHTML = `
+                <img alt="Imagem da Receita" src="${contextPath}/assets/imagens/${receita.img}" || "${contextPath}/imagens/${receita.img}">
+                <p><strong>ID:</strong> ${receita.id}</p>
+                <p><strong>Nome:</strong> ${receita.nome}</p>
+                <p><strong>Autor:</strong> ${receita.autor}</p>
+                <p><strong>Tempo de Preparo:</strong> ${receita.tempoDePreparoMinutos} minutos</p>
+                <p><strong>Porções:</strong> ${receita.qtddPorcoes}</p>
+                <p><strong>Ingredientes:</strong></p>
+                <ul>${receita.ingredientes.map(ing => `<li>${ing}</li>`).join("")}</ul>
+                <p><strong>Modo de Preparo:</strong> ${receita.modoPreparo}</p>
+                <p><strong>Categorias:</strong></p>
+                <ul>${receita.categorias.map(cat => `<li>${cat}</li>`).join("")}</ul>
+                
+                exemplo de como funcionava os botoes de editar e deletar das receitas
+
                 <a href="${contextPath}/ReceitaServletEditar?id=${receita.id}">Editar Receita</a>
                 <a href="${contextPath}/ReceitaServletDeletar?id=${receita.id}">Deletar Receita</a>
             `;
 
+            */
             conta.appendChild(card);
         });
 
@@ -241,11 +261,20 @@
         const linksDiv = document.createElement("div");
         linksDiv.className = "links-conta";
         linksDiv.innerHTML = `
+            <a href="${contextPath}/UsuarioServletDeconectar?id=${usuario.id}">Desconectar</a>
+            <a href="../../../index.html">Voltar à Página Principal</a>
+        `;
+        
+        /*
+        
+        
+        linksDiv.innerHTML = `
             <a href="${contextPath}/UsuarioServletEditar?id=${usuario.id}">Editar Usuário</a>
             <a href="${contextPath}/UsuarioServletDeconectar?id=${usuario.id}">Desconectar</a>
             <a href="${contextPath}/UsuarioServletDeletar?id=${usuario.id}">Deletar Conta</a>
             <a href="../../../index.html">Voltar à Página Principal</a>
         `;
+        */
         conta.appendChild(linksDiv);
     }
 

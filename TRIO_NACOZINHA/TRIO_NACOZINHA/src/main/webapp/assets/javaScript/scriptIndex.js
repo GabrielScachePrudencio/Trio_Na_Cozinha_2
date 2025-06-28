@@ -98,9 +98,8 @@ function carregarMenu() {
   const form = document.createElement('form');
   form.className = 'd-flex';
   form.setAttribute('role', 'search');
-  form.action = 'ReceitaServletDetalhada';
   form.method = 'POST';
-
+  
   const inputBusca = document.createElement('input');
   inputBusca.className = 'form-control me-2';
   inputBusca.type = 'search';
@@ -114,6 +113,14 @@ function carregarMenu() {
   btnBusca.textContent = 'Pesquisar';
   form.appendChild(btnBusca);
 
+  form.onsubmit = (event) => {
+      event.preventDefault(); // impede envio padrão
+      const nomeBuscado = inputBusca.value.trim();
+      if (nomeBuscado) {
+        window.location.href = `assets/views/receita/ReceitaEspecifica.html?nome=${encodeURIComponent(nomeBuscado)}`;
+      }
+    };
+  
   containerDiv.appendChild(form);
 
   if (usuarioLogado) {
@@ -199,6 +206,7 @@ async function carregarTodas() {
 function irParaReceitaMaisDetalhada5(id) {
   window.location.href = `${contextPath}/assets/views/receita/ReceitaEspecifica.html?id=${id}`;
 }
+
 
 // Função principal para inicializar tudo na ordem correta
 async function inicializar() {

@@ -19,46 +19,48 @@ import br.edu.ifsp.arq.model.Receita;
 public class ReceitaServletDetalhada extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ReceitaDAO receitaDao;
-	
+	Gson gson = new Gson();
     public ReceitaServletDetalhada() {
         super();
         receitaDao = ReceitaDAO.getInstance_R();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String busca = request.getParameter("busca");
-
-        if (busca != null && !busca.trim().isEmpty()) {
-            for (Receita r : receitaDao.mostrarTodos()) {
-                if (r.getNome().toLowerCase().contains(busca.toLowerCase())) {
-                    request.setAttribute("receitaDetalhada", r);
-                    request.getRequestDispatcher("assets/views/receita/ReceitaEspecifica.html").forward(request, response);
-                    return; 
-                }
-            }
-            request.setAttribute("msgErro", "Nenhuma receita encontrada com esse nome.");
-            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
-        } else {
-            request.setAttribute("msgErro", "Campo de busca vazio.");
-            request.getRequestDispatcher("assets/views/extras/Erro.html").forward(request, response);
-        }
-    }
 
 
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        int id2 = Integer.parseInt(id);
-        Receita receita = receitaDao.buscarPorID(id2);
+        String nome = request.getParameter("nome");
+        String idStr = request.getParameter("id");
+
+        Receita receita = null;
+
+        if (idStr != null) {
+            try {
+                int id = Integer.parseInt(idStr);
+                receita = receitaDao.buscarPorID(id);
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID inválido");
+                return;
+            }
+        } else if (nome != null && !nome.trim().isEmpty()) {
+            for (Receita r : receitaDao.mostrarTodos()) {
+                if (r.getNome().toLowerCase().contains(nome.toLowerCase())) {
+                    receita = r;
+                    break;
+                }
+            }
+        }
+
+        if (receita == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Receita não encontrada");
+            return;
+        }
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-        Gson gson = new Gson();
-        String json = gson.toJson(receita);
-
-        response.getWriter().write(json);
+        response.getWriter().write(gson.toJson(receita));
     }
+
 
 
 	

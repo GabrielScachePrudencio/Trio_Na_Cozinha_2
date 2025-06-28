@@ -69,7 +69,7 @@ public class UsuarioServletAdd extends HttpServlet {
             filePart.write(uploadPath + File.separator + fileName);
             ArrayList<Receita> minhasReceitas = new ArrayList<Receita>();
 
-            Usuario u = new Usuario(0, nome, senha, fileName, minhasReceitas);
+            Usuario u = new Usuario(0, nome, senha, fileName, "normal", minhasReceitas);
             usuario_dao.add(u);
 
             request.setAttribute("usuarios", usuario_dao.mostrarTodos());

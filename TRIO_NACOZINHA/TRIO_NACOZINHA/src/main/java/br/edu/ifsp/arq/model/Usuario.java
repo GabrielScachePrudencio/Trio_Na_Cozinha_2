@@ -8,6 +8,7 @@ public class Usuario implements Serializable{
 	private String nome;
 	private String senha;
 	private String img;
+	private String tipoU;
 	private ArrayList<Receita> minhasReceitas;
 	private static int proximo_id = 0;
 
@@ -19,18 +20,20 @@ public class Usuario implements Serializable{
 	}
 
 
-	public Usuario(int id, String nome, String senha, String img, ArrayList<Receita> minhasReceitas) {
+	public Usuario(int id, String nome, String senha, String img, String tipoU, ArrayList<Receita> minhasReceitas) {
 		setId(id);
 		setNome(nome);
 		setSenha(senha);
+		setTipoU(tipoU);
 		setImg(img);
 		setMinhasReceitas(minhasReceitas);
 	}
 	
-	public Usuario(String nome, String senha, String img, ArrayList<Receita> minhasReceitas) {
+	public Usuario(String nome, String senha, String img, String tipoU, ArrayList<Receita> minhasReceitas) {
 		this();
 		setNome(nome);
 		setSenha(senha);
+		setTipoU(tipoU);
 		setImg(img);
 		setMinhasReceitas(minhasReceitas);
 	}
@@ -57,6 +60,16 @@ public class Usuario implements Serializable{
 	
 	
 	
+	public String getTipoU() {
+		return tipoU;
+	}
+
+
+	public void setTipoU(String tipoU) {
+		this.tipoU = tipoU;
+	}
+
+
 	public String getImg() {
 		return img;
 	}

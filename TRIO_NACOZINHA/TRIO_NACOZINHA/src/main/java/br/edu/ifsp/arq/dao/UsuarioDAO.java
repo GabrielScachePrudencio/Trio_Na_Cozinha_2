@@ -44,7 +44,7 @@ public class UsuarioDAO implements GenericDAO<Usuario> {
             }
         }
 
-        Usuario novoUsuario = new Usuario(maiorId + 1, u.getNome(), u.getSenha(), u.getImg(), u.getMinhasReceitas());
+        Usuario novoUsuario = new Usuario(maiorId + 1, u.getNome(), u.getSenha(), u.getImg(), "normal", u.getMinhasReceitas());
         usuarios.add(novoUsuario);
 
         return setDadosArq(usuarios);
